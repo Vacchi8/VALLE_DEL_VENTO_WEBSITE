@@ -41,10 +41,11 @@ const { image, title, subtitle, height = '100vh' } = Astro.props;
     color: white;
     border-radius: 8px;
     max-width: 90%;
-    font-family:cursive;
+    /* REMOVED font-family:cursive; */
   }
 
   .hero-overlay h1 {
+    font-family: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     font-size: clamp(2.5rem, 8vw, 5rem);
     font-weight: 700;
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
@@ -53,6 +54,7 @@ const { image, title, subtitle, height = '100vh' } = Astro.props;
   }
 
   .hero-overlay p {
+    font-family: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     font-size: clamp(1rem, 2.5vw, 1.5rem);
     opacity: 0.95;
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);

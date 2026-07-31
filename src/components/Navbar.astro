@@ -82,10 +82,10 @@
      2. LOGO
      ========================================================== */
   .navbar-brand {
-    color: var(--primary-color);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: #FFFFFF;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
     text-decoration: none;
-    transition: color 0.3s ease, opacity 0.3s ease;
+    transition: color 0.3s ease, opacity 0.3s ease, text-shadow 0.3s ease;
   }
 
   .navbar-brand:hover {
@@ -113,7 +113,7 @@
      4. LINK
      ========================================================== */
   .nav-link {
-    color: var(--primary-color) ;
+    color: var(--primary-color);
     font-weight: 600;
     position: relative;
     padding: 0.5rem 0.75rem !important;
@@ -125,10 +125,9 @@
   }
 
   .nav-link:hover {
-  color: #ffffff !important;  
-  text-shadow: 0 0 20px rgba(191, 49, 49, 0.6); 
-}
-
+    color: #FFFFFF !important;
+    text-shadow: 0 0 20px rgba(191, 49, 49, 0.6);
+  }
 
   /* Sottolineatura rossa per pagina attiva */
   .nav-link.active {
@@ -179,7 +178,8 @@
   }
 
   .dropdown-toggle-custom:hover {
-    color: var(--accent-color) !important;
+    color: #FFFFFF !important;
+    text-shadow: 0 0 20px rgba(191, 49, 49, 0.6);
   }
 
   /* Dropdown toggle quando scrollato */
@@ -210,7 +210,7 @@
     left: 50%;
     transform: translateX(-50%);
     min-width: 160px;
-    background: var(--primary-color);
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -260,7 +260,7 @@
     display: inline-block;
     width: 28px;
     height: 28px;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23F3EDC8' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23FFFFFF' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -268,7 +268,7 @@
   }
 
   .navbar-toggler.open .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23F3EDC8' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M6 6L24 24M6 24L24 6'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23FFFFFF' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M6 6L24 24M6 24L24 6'/%3e%3c/svg%3e");
   }
 
   /* Hamburger quando scrollato (colore scuro) */
@@ -295,7 +295,7 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       justify-content: center;
@@ -329,7 +329,7 @@
     }
 
     #navbar.scrolled #navbarMenu .nav-link {
-        color: white !important;
+      color: white !important;
     }
 
     #navbarMenu .nav-link::after {
@@ -350,6 +350,10 @@
       text-shadow: none;
       padding: 0.5rem 1rem;
       cursor: default;
+    }
+
+    #navbar.scrolled #navbarMenu .dropdown-toggle-custom {
+      color: white !important;
     }
 
     #navbarMenu .dropdown-toggle-custom:hover {
@@ -434,27 +438,27 @@
   // ============================================================
   // 1. TOGGLE MENU MOBILE
   // ============================================================
-  document.addEventListener('DOMContentLoaded', () => {
-    const hamburger = document.getElementById('hamburgerBtn');
-    const navbarMenu = document.getElementById('navbarMenu');
-    const produzioniItem = document.getElementById('produzioniItem');
-    const produzioniMenu = document.getElementById('produzioniMenu');
-    const produzioniToggle = document.getElementById('produzioniToggle');
+  document.addEventListener('DOMContentLoaded', function() {
+    var hamburger = document.getElementById('hamburgerBtn');
+    var navbarMenu = document.getElementById('navbarMenu');
+    var produzioniItem = document.getElementById('produzioniItem');
+    var produzioniMenu = document.getElementById('produzioniMenu');
+    var produzioniToggle = document.getElementById('produzioniToggle');
 
     if (!hamburger || !navbarMenu) {
       return;
     }
 
-    const hamburgerEl = hamburger;
-    const navbarMenuEl = navbarMenu;
-    const produzioniMenuEl = produzioniMenu;
-    const produzioniToggleEl = produzioniToggle;
+    var hamburgerEl = hamburger;
+    var navbarMenuEl = navbarMenu;
+    var produzioniMenuEl = produzioniMenu;
+    var produzioniToggleEl = produzioniToggle;
 
-    let closeTimeout: number | null = null;
-    let resizeTimeout: number | null = null;
+    var closeTimeout: number | null = null;
+    var resizeTimeout: number | null = null;
 
     function toggleMenu(forceState?: boolean) {
-      const isOpen = typeof forceState === 'boolean' ? forceState : navbarMenuEl.classList.contains('open');
+      var isOpen = typeof forceState === 'boolean' ? forceState : navbarMenuEl.classList.contains('open');
 
       if (isOpen) {
         navbarMenuEl.classList.remove('open');
@@ -477,8 +481,8 @@
     // ============================================================
     document.querySelectorAll('#navbarMenu .nav-link, #navbarMenu .dropdown-item-custom').forEach(function(link) {
       link.addEventListener('click', function() {
-        const isProduzioniToggle = link.id === 'produzioniToggle';
-        const isProduzioniItem = link.closest && link.closest('#produzioniItem');
+        var isProduzioniToggle = link.id === 'produzioniToggle';
+        var isProduzioniItem = link.closest && link.closest('#produzioniItem');
 
         if (isProduzioniToggle || isProduzioniItem) {
           return;
@@ -491,13 +495,13 @@
     });
 
     document.addEventListener('click', function(e) {
-      const target = e.target;
+      var target = e.target;
       if (!(target instanceof Node)) {
         return;
       }
 
       if (navbarMenuEl.classList.contains('open')) {
-        const isClickInside = navbarMenuEl.contains(target) || hamburgerEl.contains(target);
+        var isClickInside = navbarMenuEl.contains(target) || hamburgerEl.contains(target);
         if (!isClickInside) {
           toggleMenu(false);
         }
@@ -510,23 +514,23 @@
       }
     });
 
-    const currentPath = window.location.pathname;
-    const navLinks = document.querySelectorAll('.nav-link[data-active]');
+    var currentPath = window.location.pathname;
+    var navLinks = document.querySelectorAll('.nav-link[data-active]');
 
     navLinks.forEach(function(link) {
-      const linkPath = link.getAttribute('data-active');
+      var linkPath = link.getAttribute('data-active');
       if (linkPath && (currentPath === linkPath || currentPath.startsWith(linkPath + '/'))) {
         link.classList.add('active');
       }
     });
 
-    const produzioniActiveToggle = document.getElementById('produzioniToggle');
+    var produzioniActiveToggle = document.getElementById('produzioniToggle');
     if (produzioniActiveToggle && currentPath.startsWith('/produzioni/')) {
       produzioniActiveToggle.classList.add('active');
     }
 
     document.addEventListener('scroll', function() {
-      const navbar = document.getElementById('navbar');
+      var navbar = document.getElementById('navbar');
       if (!navbar) return;
 
       if (window.scrollY > 80) {
@@ -537,8 +541,8 @@
     });
 
     if (produzioniItem && produzioniMenuEl) {
-      const dropdownMenu = produzioniMenuEl;
-      const dropdownToggle = produzioniToggleEl;
+      var dropdownMenu = produzioniMenuEl;
+      var dropdownToggle = produzioniToggleEl;
 
       function openDropdown() {
         if (closeTimeout !== null) {
