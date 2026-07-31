@@ -1,6 +1,6 @@
 ---
 // src/components/LoghiCarousel.astro
-import { loghiConfig } from 'src/config/carouselLoghi.js';
+import { loghiConfig } from '../config/carouselLoghi.js';
 ---
 
 <section class="logo-carousel-section">
@@ -9,7 +9,7 @@ import { loghiConfig } from 'src/config/carouselLoghi.js';
     <div class="carousel-track">
       <div class="carousel-slide" id="logoSlide">
         <!-- Prima copia -->
-        {loghiConfig.map((logo, index) => (
+        {loghiConfig.map((logo: { src: string; alt: string; url?: string }, index: number) => (
           logo.url ? (
             <a 
               href={logo.url} 
@@ -35,7 +35,7 @@ import { loghiConfig } from 'src/config/carouselLoghi.js';
           )
         ))}
         <!-- Seconda copia (per il loop) -->
-        {loghiConfig.map((logo, index) => (
+        {loghiConfig.map((logo: { src: string; alt: string; url?: string }, index: number) => (
           logo.url ? (
             <a 
               href={logo.url} 
@@ -61,7 +61,7 @@ import { loghiConfig } from 'src/config/carouselLoghi.js';
           )
         ))}
         <!-- Terza copia (per sicurezza) -->
-        {loghiConfig.map((logo, index) => (
+        {loghiConfig.map((logo: { src: string; alt: string; url?: string }, index: number) => (
           logo.url ? (
             <a 
               href={logo.url} 
