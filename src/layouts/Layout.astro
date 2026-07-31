@@ -1,3 +1,9 @@
+---
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+import Navbar from '../components/Navbar.astro';
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -6,10 +12,22 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
+		<!-- Font -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"/>
 		<title>Astro Basics</title>
 	</head>
 	<body>
+		<Navbar />
 		<slot />
+
+		<Footer />
+
+
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	</body>
 </html>
 
@@ -19,5 +37,9 @@
 		margin: 0;
 		width: 100%;
 		height: 100%;
+	}
+
+	div {
+		height: 100vh;
 	}
 </style>

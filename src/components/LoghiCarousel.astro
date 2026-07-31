@@ -1,0 +1,206 @@
+---
+// src/components/LoghiCarousel.astro
+import { loghiConfig } from '../config/carouselLoghi.js';
+---
+
+<section class="logo-carousel-section">
+  <div class="container">
+    <p class="carousel-title">Collaboriamo con</p>
+    <div class="carousel-track">
+      <div class="carousel-slide" id="logoSlide">
+        <!-- Prima copia -->
+        {loghiConfig.map((logo, index) => (
+          logo.url ? (
+            <a 
+              href={logo.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="logo-link"
+              title={`Visita il sito di ${logo.alt}`}
+            >
+              <img 
+                src={logo.src} 
+                alt={logo.alt} 
+                class="logo-image" 
+                loading="lazy"
+              />
+            </a>
+          ) : (
+            <img 
+              src={logo.src} 
+              alt={logo.alt} 
+              class="logo-image" 
+              loading="lazy"
+            />
+          )
+        ))}
+        <!-- Seconda copia (per il loop) -->
+        {loghiConfig.map((logo, index) => (
+          logo.url ? (
+            <a 
+              href={logo.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="logo-link"
+              title={`Visita il sito di ${logo.alt}`}
+            >
+              <img 
+                src={logo.src} 
+                alt={logo.alt} 
+                class="logo-image" 
+                loading="lazy"
+              />
+            </a>
+          ) : (
+            <img 
+              src={logo.src} 
+              alt={logo.alt} 
+              class="logo-image" 
+              loading="lazy"
+            />
+          )
+        ))}
+        <!-- Terza copia (per sicurezza) -->
+        {loghiConfig.map((logo, index) => (
+          logo.url ? (
+            <a 
+              href={logo.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="logo-link"
+              title={`Visita il sito di ${logo.alt}`}
+            >
+              <img 
+                src={logo.src} 
+                alt={logo.alt} 
+                class="logo-image" 
+                loading="lazy"
+              />
+            </a>
+          ) : (
+            <img 
+              src={logo.src} 
+              alt={logo.alt} 
+              class="logo-image" 
+              loading="lazy"
+            />
+          )
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .logo-carousel-section {
+    padding: 2.5rem 0;
+    background: transparent;
+    border-top: 1px solid rgba(125, 10, 10, 0.06);
+    border-bottom: 1px solid rgba(125, 10, 10, 0.06);
+    overflow: hidden;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .carousel-title {
+    text-align: center;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-color);
+    opacity: 0.5;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .carousel-track {
+    overflow: hidden;
+    position: relative;
+    padding: 0.5rem 0;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  .carousel-slide {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    width: max-content;
+    animation: scroll 35s linear infinite;
+  }
+
+  .carousel-track:hover .carousel-slide {
+    animation-play-state: paused;
+  }
+
+  .logo-link {
+    display: inline-block;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .logo-link:hover {
+    transform: scale(1.05);
+  }
+
+  .logo-image {
+    height: 70px;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.5;
+    transition: filter 0.4s ease, opacity 0.4s ease;
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  .logo-link:hover .logo-image {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.33%);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .logo-carousel-section {
+      padding: 2rem 0;
+    }
+    .carousel-slide {
+      gap: 2.5rem;
+    }
+    .logo-image {
+      height: 50px;
+      max-width: 140px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo-carousel-section {
+      padding: 1.5rem 0;
+    }
+    .carousel-title {
+      font-size: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .carousel-slide {
+      gap: 1.5rem;
+    }
+    .logo-image {
+      height: 40px;
+      max-width: 100px;
+    }
+  }
+</style>

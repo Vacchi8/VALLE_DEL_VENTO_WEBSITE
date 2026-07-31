@@ -1,0 +1,172 @@
+---
+// src/components/ScuolaSection.astro
+---
+
+<section class="scuola-section">
+  <div class="scuola-overlay"></div>
+  <div class="container">
+    <div class="scuola-content">
+      <span class="scuola-tag">Chi siamo</span>
+      <h2>Un progetto nato dal palco</h2>
+      <p>
+        Dal 2011, la Piccola Scuola Popolare di Teatro accoglie ragazzi e ragazze a partire dai 10 anni 
+        in un'avventura teatrale unica. Fondata da <strong>Alessandro Tessitore</strong>, regista e 
+        performer con un'esperienza internazionale maturata al fianco di grandi maestri, la scuola è 
+        un laboratorio di ricerca e creatività dove l'immaginazione dei giovani diventa spettacolo.
+      </p>
+      <p>
+        Una "piccola" comunità che è anche un esperimento sociale, dove l'arte si fa insieme, 
+        al di là dell'aspetto economico, grazie al contributo volontario delle famiglie. 
+        Una scuola che guarda oltre il palcoscenico, per crescere come persone e come artisti.
+      </p>
+      <a href="/scuola" class="btn-scopri">Scopri la Scuola →</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ==========================================================
+     SEZIONE SCUOLA
+     ========================================================== */
+  .scuola-section {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: 4rem 0;
+    overflow: hidden;
+    background-image: url('https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/IMG_6883.JPG'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Overlay scuro per leggibilità */
+  .scuola-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
+  }
+
+  .scuola-content {
+    max-width: 700px;
+    color: white;
+    margin: 0;
+  }
+
+  .scuola-tag {
+    display: inline-block;
+    background: var(--accent-color);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+
+  .scuola-content h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+    line-height: 1.2;
+    color: white;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .scuola-content p {
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    line-height: 1.7;
+    margin: 0 0 1.2rem 0;
+    opacity: 0.92;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  .scuola-content p strong {
+    color: rgb(255, 86, 86);
+    font-weight: 700;
+  }
+
+  .btn-scopri {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.8rem 2.5rem;
+    background: var(--accent-color);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px rgba(191, 49, 49, 0.35);
+  }
+
+  .btn-scopri:hover {
+    background: var(--text-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(191, 49, 49, 0.45);
+    color: white;
+  }
+
+  /* ==========================================================
+     MOBILE
+     ========================================================== */
+  @media (max-width: 768px) {
+    .scuola-section {
+      min-height: 60vh;
+      padding: 3rem 0;
+    }
+
+    .scuola-content {
+      max-width: 100%;
+      text-align: center;
+    }
+
+    .scuola-content h2 {
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+    }
+
+    .scuola-content p {
+      font-size: 0.95rem;
+    }
+
+    .btn-scopri {
+      padding: 0.7rem 2rem;
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .scuola-section {
+      min-height: 50vh;
+      padding: 2.5rem 0;
+    }
+
+    .scuola-tag {
+      font-size: 0.65rem;
+    }
+
+    .scuola-content h2 {
+      font-size: 1.4rem;
+    }
+
+    .scuola-content p {
+      font-size: 0.85rem;
+    }
+  }
+</style>

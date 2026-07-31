@@ -1,0 +1,294 @@
+---
+// src/components/ProduzioniSection.astro
+---
+
+<section class="produzioni-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Produzioni</span>
+      <h2>Sul palco, i nostri mondi.</h2>
+      <p class="section-intro">
+        Ogni spettacolo è un'avventura. Scopri i progetti che stanno prendendo vita 
+        e quelli che hanno già emozionato il pubblico.
+      </p>
+    </div>
+
+    <div class="produzioni-grid">
+      <!-- Card: In Scena (cliccabile) -->
+      <a href="/produzioni/inScena" class="produzione-card-link">
+        <div class="produzione-card">
+          <div class="card-icon-wrapper">
+            <img src="/icons/bitmask-svgrepo-com.svg" alt="Maschere teatrali" class="card-icon" />
+          </div>
+          <h3>In Scena</h3>
+          <p>
+            Spettacoli attualmente in cartellone o in fase di sviluppo. 
+            Il lavoro vivo del laboratorio, che prende forma sotto i riflettori.
+          </p>
+          <span class="card-link">
+            Scopri In Scena <span class="arrow">→</span>
+          </span>
+        </div>
+      </a>
+
+      <!-- Card: Repertorio (cliccabile) -->
+      <a href="/produzioni/repertorio" class="produzione-card-link">
+        <div class="produzione-card">
+          <div class="card-icon-wrapper">
+            <img src="/icons/biblioteket-svgrepo-com.svg" alt="Biglietti" class="card-icon" />
+          </div>
+          <h3>Repertorio</h3>
+          <p>
+            Le produzioni che hanno segnato la nostra storia. Spettacoli che non sono 
+            più in scena ma che continuano a vivere nella memoria e nell'identità della scuola.
+          </p>
+          <span class="card-link">
+            Esplora il Repertorio <span class="arrow">→</span>
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ==========================================================
+     SEZIONE PRODUZIONI
+     ========================================================== */
+  .produzioni-section {
+    padding: 5rem 0;
+    background: transparent;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ==========================================================
+     INTESTAZIONE
+     ========================================================== */
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-tag {
+    display: inline-block;
+    background: var(--accent-color);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-header h2 {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 0.75rem 0;
+  }
+
+  .section-intro {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ==========================================================
+     GRIGLIA CARD
+     ========================================================== */
+  .produzioni-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  /* ==========================================================
+     CARD LINK (rende l'intera card cliccabile)
+     ========================================================== */
+  .produzione-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .produzione-card-link:hover {
+    transform: translateY(-6px);
+  }
+
+  .produzione-card-link:hover .produzione-card {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+  }
+
+  /* ==========================================================
+     CARD
+     ========================================================== */
+  .produzione-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    height: 100%;
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  /* ==========================================================
+     ICONE SVG (stesso stile di InfoSection)
+     ========================================================== */
+  .card-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    width: 80px;
+    height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(191, 49, 49, 0.10);
+    border-radius: 50%;
+    transition: background 0.4s ease;
+  }
+
+  .produzione-card-link:hover .card-icon-wrapper {
+    background: rgba(191, 49, 49, 0.20);
+  }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    color: var(--accent-color);
+    fill: var(--accent-color);
+    transition: transform 0.4s ease;
+  }
+
+  /* Forza il colore per gli elementi SVG */
+  .card-icon path,
+  .card-icon circle,
+  .card-icon rect {
+    fill: var(--accent-color);
+    stroke: var(--accent-color);
+  }
+
+  .produzione-card-link:hover .card-icon {
+    transform: scale(1.1) rotate(-4deg);
+  }
+
+  /* ==========================================================
+     TESTO
+     ========================================================== */
+  .produzione-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 0.75rem 0;
+  }
+
+  .produzione-card p {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.75;
+    line-height: 1.6;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .card-link {
+    display: inline-block;
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .produzione-card-link:hover .card-link {
+    color: var(--text-color);
+  }
+
+  .card-link .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+
+  .produzione-card-link:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  /* ==========================================================
+     MOBILE
+     ========================================================== */
+  @media (max-width: 768px) {
+    .produzioni-section {
+      padding: 3.5rem 0;
+    }
+
+    .produzioni-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .produzione-card {
+      padding: 2rem 1.5rem;
+    }
+
+    .section-intro {
+      font-size: 1rem;
+      padding: 0 0.5rem;
+    }
+
+    .produzione-card h3 {
+      font-size: 1.3rem;
+    }
+
+    .produzione-card p {
+      font-size: 0.9rem;
+    }
+
+    .card-icon-wrapper {
+      width: 70px;
+      height: 70px;
+    }
+
+    .card-icon {
+      width: 34px;
+      height: 34px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .produzioni-section {
+      padding: 2.5rem 0;
+    }
+
+    .section-header h2 {
+      font-size: 1.6rem;
+    }
+
+    .produzione-card {
+      padding: 1.5rem 1rem;
+    }
+
+    .card-icon-wrapper {
+      width: 60px;
+      height: 60px;
+    }
+
+    .card-icon {
+      width: 28px;
+      height: 28px;
+    }
+  }
+</style>

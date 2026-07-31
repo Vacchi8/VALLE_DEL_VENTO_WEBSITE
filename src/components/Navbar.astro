@@ -1,0 +1,612 @@
+---
+// src/components/Navbar.astro
+---
+
+<nav 
+  id="navbar"
+  class="navbar fixed-top py-3 transition-all duration-300"
+>
+  <div class="container d-flex align-items-center justify-content-between">
+    <!-- Logo -->
+    <a 
+      id="navbarLogo"
+      class="navbar-brand fw-bold fs-4" 
+      href="/"
+    >
+      <img 
+        src="/favicon.svg" 
+        alt="Valle Del Vento" 
+        height="40" 
+        class="d-inline-block align-text-top me-2"
+      />
+      Valle Del Vento
+    </a>
+
+    <!-- Pulsante hamburger -->
+    <button 
+      id="hamburgerBtn"
+      class="navbar-toggler border-0" 
+      type="button" 
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Menu -->
+    <div id="navbarMenu" class="navbar-menu">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/" data-active="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/news" data-active="/news">News</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/scuola" data-active="/scuola">Scuola di Teatro</a>
+        </li>
+        <li class="nav-item dropdown" id="produzioniItem">
+          <span class="nav-link dropdown-toggle-custom" id="produzioniToggle">
+            Produzioni <span class="dropdown-arrow">▼</span>
+          </span>
+          <ul class="dropdown-menu-custom" id="produzioniMenu">
+            <li><a class="dropdown-item-custom" href="/produzioni/inScena">In Scena</a></li>
+            <li><a class="dropdown-item-custom" href="/produzioni/repertorio">Repertorio</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contatti" data-active="/contatti">Contatti</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* ==========================================================
+     1. NAVBAR BASE
+     ========================================================== */
+  #navbar {
+    background-color: transparent;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+    padding: 1rem 0;
+    z-index: 1050;
+  }
+
+  #navbar.scrolled {
+    background-color: var(--secondary-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 0.5rem 0;
+  }
+
+  /* ==========================================================
+     2. LOGO
+     ========================================================== */
+  .navbar-brand {
+    color: var(--primary-color);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    transition: color 0.3s ease, opacity 0.3s ease;
+  }
+
+  .navbar-brand:hover {
+    opacity: 0.8;
+  }
+
+  /* Logo quando scrollato */
+  #navbar.scrolled .navbar-brand {
+    color: var(--text-color);
+    text-shadow: none;
+  }
+
+  /* ==========================================================
+     3. LISTE
+     ========================================================== */
+  .navbar-nav {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5rem;
+  }
+
+  /* ==========================================================
+     4. LINK
+     ========================================================== */
+  .nav-link {
+    color: var(--primary-color) ;
+    font-weight: 600;
+    position: relative;
+    padding: 0.5rem 0.75rem !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: color 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .nav-link:hover {
+  color: #ffffff !important;  
+  text-shadow: 0 0 20px rgba(191, 49, 49, 0.6); 
+}
+
+
+  /* Sottolineatura rossa per pagina attiva */
+  .nav-link.active {
+    color: var(--accent-color) !important;
+  }
+
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 4px;
+  }
+
+  /* Link quando scrollato */
+  #navbar.scrolled .nav-link {
+    color: var(--text-color) !important;
+    text-shadow: none;
+  }
+
+  #navbar.scrolled .nav-link:hover {
+    color: var(--accent-color) !important;
+  }
+
+  #navbar.scrolled .nav-link.active {
+    color: var(--accent-color) !important;
+  }
+
+  /* ==========================================================
+     5. DROPDOWN (DESKTOP)
+     ========================================================== */
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-toggle-custom {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    display: inline-block;
+    color: var(--primary-color);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: color 0.3s ease;
+  }
+
+  .dropdown-toggle-custom:hover {
+    color: var(--accent-color) !important;
+  }
+
+  /* Dropdown toggle quando scrollato */
+  #navbar.scrolled .dropdown-toggle-custom {
+    color: var(--text-color);
+    text-shadow: none;
+  }
+
+  #navbar.scrolled .dropdown-toggle-custom:hover {
+    color: var(--accent-color) !important;
+  }
+
+  .dropdown-arrow {
+    font-size: 0.6rem;
+    margin-left: 4px;
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+
+  .dropdown-arrow.open {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-menu-custom {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 160px;
+    background: var(--primary-color);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    z-index: 1060;
+    list-style: none;
+  }
+
+  .dropdown-menu-custom.open {
+    display: block;
+  }
+
+  .dropdown-item-custom {
+    display: block;
+    padding: 0.5rem 1.5rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+    list-style: none;
+  }
+
+  .dropdown-item-custom:hover {
+    background-color: var(--accent-color);
+    color: white;
+  }
+
+  /* ==========================================================
+     6. HAMBURGER
+     ========================================================== */
+  .navbar-toggler {
+    padding: 0.25rem 0.5rem;
+    font-size: 1.5rem;
+    line-height: 1;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 1070;
+    display: none;
+  }
+
+  .navbar-toggler-icon {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23F3EDC8' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    transition: transform 0.3s ease;
+  }
+
+  .navbar-toggler.open .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23F3EDC8' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M6 6L24 24M6 24L24 6'/%3e%3c/svg%3e");
+  }
+
+  /* Hamburger quando scrollato (colore scuro) */
+  #navbar.scrolled .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(125, 10, 10, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+
+  #navbar.scrolled .navbar-toggler.open .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(125, 10, 10, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M6 6L24 24M6 24L24 6'/%3e%3c/svg%3e");
+  }
+
+  /* ==========================================================
+     7. MOBILE
+     ========================================================== */
+  @media (max-width: 991.98px) {
+    .navbar-toggler {
+      display: block;
+    }
+
+    #navbarMenu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1050;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    #navbarMenu.open {
+      display: flex;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #navbarMenu .navbar-nav {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      width: 100%;
+      text-align: center;
+    }
+
+    #navbarMenu .nav-link {
+      font-size: 2rem;
+      color: white !important;
+      text-shadow: none;
+      padding: 0.5rem 1rem !important;
+    }
+
+    #navbar.scrolled #navbarMenu .nav-link {
+        color: white !important;
+    }
+
+    #navbarMenu .nav-link::after {
+      bottom: -4px;
+    }
+
+    /* Dropdown mobile: sempre visibile e senza toggle */
+    #navbarMenu .dropdown {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    #navbarMenu .dropdown-toggle-custom {
+      font-size: 2rem;
+      color: white !important;
+      text-shadow: none;
+      padding: 0.5rem 1rem;
+      cursor: default;
+    }
+
+    #navbarMenu .dropdown-toggle-custom:hover {
+      color: white !important;
+    }
+
+    #navbarMenu .dropdown-arrow {
+      display: none;
+    }
+
+    #navbarMenu .dropdown-menu-custom {
+      position: static;
+      transform: none;
+      background: transparent;
+      backdrop-filter: none;
+      border: none;
+      box-shadow: none;
+      padding: 0.5rem 0 0 0;
+      margin-top: 0;
+      display: block !important;
+      list-style: none;
+    }
+
+    #navbarMenu .dropdown-item-custom {
+      color: rgba(255, 255, 255, 0.849);
+      font-size: 1.3rem;
+      padding: 0.3rem 0;
+    }
+
+    #navbarMenu .dropdown-item-custom:hover {
+      background: transparent;
+      color: white;
+    }
+  }
+
+  /* ==========================================================
+     8. DESKTOP
+     ========================================================== */
+  @media (min-width: 992px) {
+    #navbarMenu {
+      display: flex !important;
+      position: static;
+      height: auto;
+      background: transparent;
+      backdrop-filter: none;
+      opacity: 1;
+      pointer-events: all;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    #navbarMenu .navbar-nav {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    #navbarMenu .nav-link {
+      font-size: 1rem;
+      color: var(--primary-color) !important;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #navbarMenu .nav-link::after {
+      bottom: 0;
+    }
+
+    #navbarMenu .dropdown-menu-custom {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 0.5rem;
+    }
+
+    .navbar-toggler {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  // ============================================================
+  // 1. TOGGLE MENU MOBILE
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.getElementById('hamburgerBtn');
+    const navbarMenu = document.getElementById('navbarMenu');
+    const produzioniItem = document.getElementById('produzioniItem');
+    const produzioniMenu = document.getElementById('produzioniMenu');
+    const produzioniToggle = document.getElementById('produzioniToggle');
+
+    if (!hamburger || !navbarMenu) {
+      return;
+    }
+
+    const hamburgerEl = hamburger;
+    const navbarMenuEl = navbarMenu;
+    const produzioniMenuEl = produzioniMenu;
+    const produzioniToggleEl = produzioniToggle;
+
+    let closeTimeout: number | null = null;
+    let resizeTimeout: number | null = null;
+
+    function toggleMenu(forceState?: boolean) {
+      const isOpen = typeof forceState === 'boolean' ? forceState : navbarMenuEl.classList.contains('open');
+
+      if (isOpen) {
+        navbarMenuEl.classList.remove('open');
+        hamburgerEl.classList.remove('open');
+        document.body.style.overflow = '';
+      } else {
+        navbarMenuEl.classList.add('open');
+        hamburgerEl.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    hamburgerEl.addEventListener('click', function(e) {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    // ============================================================
+    // 3. CHIUDI MENU MOBILE: click su link (escluso "Produzioni")
+    // ============================================================
+    document.querySelectorAll('#navbarMenu .nav-link, #navbarMenu .dropdown-item-custom').forEach(function(link) {
+      link.addEventListener('click', function() {
+        const isProduzioniToggle = link.id === 'produzioniToggle';
+        const isProduzioniItem = link.closest && link.closest('#produzioniItem');
+
+        if (isProduzioniToggle || isProduzioniItem) {
+          return;
+        }
+
+        if (navbarMenuEl.classList.contains('open')) {
+          toggleMenu(false);
+        }
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      const target = e.target;
+      if (!(target instanceof Node)) {
+        return;
+      }
+
+      if (navbarMenuEl.classList.contains('open')) {
+        const isClickInside = navbarMenuEl.contains(target) || hamburgerEl.contains(target);
+        if (!isClickInside) {
+          toggleMenu(false);
+        }
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && navbarMenuEl.classList.contains('open')) {
+        toggleMenu(false);
+      }
+    });
+
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link[data-active]');
+
+    navLinks.forEach(function(link) {
+      const linkPath = link.getAttribute('data-active');
+      if (linkPath && (currentPath === linkPath || currentPath.startsWith(linkPath + '/'))) {
+        link.classList.add('active');
+      }
+    });
+
+    const produzioniActiveToggle = document.getElementById('produzioniToggle');
+    if (produzioniActiveToggle && currentPath.startsWith('/produzioni/')) {
+      produzioniActiveToggle.classList.add('active');
+    }
+
+    document.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if (!navbar) return;
+
+      if (window.scrollY > 80) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    if (produzioniItem && produzioniMenuEl) {
+      const dropdownMenu = produzioniMenuEl;
+      const dropdownToggle = produzioniToggleEl;
+
+      function openDropdown() {
+        if (closeTimeout !== null) {
+          window.clearTimeout(closeTimeout);
+          closeTimeout = null;
+        }
+        dropdownMenu.classList.add('open');
+        if (dropdownToggle) {
+          dropdownToggle.classList.add('open');
+        }
+      }
+
+      function closeDropdown() {
+        if (closeTimeout !== null) {
+          window.clearTimeout(closeTimeout);
+        }
+        closeTimeout = window.setTimeout(function() {
+          dropdownMenu.classList.remove('open');
+          if (dropdownToggle) {
+            dropdownToggle.classList.remove('open');
+          }
+          closeTimeout = null;
+        }, 150);
+      }
+
+      produzioniItem.addEventListener('mouseenter', function() {
+        if (window.innerWidth >= 992) {
+          openDropdown();
+        }
+      });
+
+      produzioniItem.addEventListener('mouseleave', function() {
+        if (window.innerWidth >= 992) {
+          closeDropdown();
+        }
+      });
+
+      if (dropdownToggle) {
+        dropdownToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (window.innerWidth >= 992) {
+            if (dropdownMenu.classList.contains('open')) {
+              closeDropdown();
+            } else {
+              openDropdown();
+            }
+          }
+        });
+      }
+    }
+
+    window.addEventListener('resize', function() {
+      if (resizeTimeout !== null) {
+        window.clearTimeout(resizeTimeout);
+      }
+      resizeTimeout = window.setTimeout(function() {
+        if (window.innerWidth >= 992) {
+          if (navbarMenuEl.classList.contains('open')) {
+            toggleMenu(false);
+          }
+        } else if (produzioniMenuEl) {
+          produzioniMenuEl.classList.remove('open');
+          if (produzioniToggleEl) {
+            produzioniToggleEl.classList.remove('open');
+          }
+        }
+        resizeTimeout = null;
+      }, 100);
+    });
+  });
+</script>

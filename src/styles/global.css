@@ -1,0 +1,59 @@
+/* src/styles/global.css */
+
+/* 1. Importa Bootstrap */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+/* 2. Variabili CSS personalizzate */
+:root {
+  --primary-color: #F3EDC8;
+  --secondary-color: #EAD196;
+  --text-color: #670808;
+  --accent-color: #BF3131;
+  --font-family: 'Mulish', Arial, sans-serif;
+}
+
+/* 3. Stili di base */
+body {
+  font-family: var(--font-family);
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+a {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-color);
+}
+
+/* 4. Utility rapide per usare le variabili nel markup */
+.text-primary-custom {
+  color: var(--primary-color);
+}
+
+.bg-primary-custom {
+  background-color: var(--primary-color);
+}
+
+.text-secondary-custom {
+  color: var(--secondary-color);
+}
+
+.bg-secondary-custom {
+  background-color: var(--secondary-color);
+}
+
+.text-accent-custom {
+  color: var(--accent-color);
+}
+
+.bg-accent-custom {
+  background-color: var(--accent-color);
+}
+
+.text-color-custom {
+  color: var(--text-color);
+}

@@ -1,0 +1,209 @@
+---
+// src/components/ContattaciSection.astro
+---
+
+<section class="contattaci-section">
+  <div class="container">
+    <!-- Icona SVG a sinistra -->
+    <div class="contattaci-icon-wrapper">
+      <img 
+        src="/icons/phone-handle-svgrepo-com.svg" 
+        alt="Contattaci" 
+        class="contattaci-icon"
+      />
+    </div>
+
+    <!-- Testo al centro -->
+    <div class="contattaci-text">
+      <h2>Contattaci</h2>
+      <p>
+        Per informazioni sui corsi, le iscrizioni, gli spettacoli o qualsiasi altra domanda, 
+        scrivici pure. Saremo felici di risponderti.
+      </p>
+    </div>
+
+    <!-- Pulsante a destra -->
+    <a href="/contatti" class="btn-contattaci">
+      Scrivici →
+    </a>
+  </div>
+</section>
+
+<style>
+  /* ==========================================================
+     SEZIONE CONTATTACI
+     ========================================================== */
+  .contattaci-section {
+    padding: 5rem 0;
+    background: transparent;
+    border-top: 1px solid rgba(125, 10, 10, 0.2);
+    border-bottom: 1px solid rgba(125, 10, 10, 0.2);
+    margin-top: 3rem;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  /* ==========================================================
+     ICONA SVG (sinistra)
+     ========================================================== */
+  .contattaci-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    background: rgba(191, 49, 49, 0.10);
+    border-radius: 50%;
+    transition: background 0.3s ease;
+    flex-shrink: 0;
+    margin-right: 1.5rem; /* Aumentato da 1rem a 1.5rem */
+  }
+
+  .contattaci-section:hover .contattaci-icon-wrapper {
+    background: rgba(191, 49, 49, 0.18);
+  }
+
+  .contattaci-icon {
+    width: 40px;
+    height: 40px;
+    color: var(--accent-color);
+    fill: var(--accent-color);
+    transition: transform 0.3s ease;
+  }
+
+  .contattaci-section:hover .contattaci-icon {
+    transform: scale(1.05);
+  }
+
+  .contattaci-icon path,
+  .contattaci-icon circle,
+  .contattaci-icon rect {
+    fill: var(--accent-color);
+    stroke: var(--accent-color);
+  }
+
+  /* ==========================================================
+     TESTO (centro)
+     ========================================================== */
+  .contattaci-text {
+    flex: 1;
+    padding-right: 1rem; /* Aggiunto per bilanciare con il pulsante */
+  }
+
+  .contattaci-text h2 {
+    font-size: clamp(1.3rem, 1.8vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 0.25rem 0;
+  }
+
+  .contattaci-text p {
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    color: var(--text-color);
+    opacity: 0.7;
+    margin: 0;
+    line-height: 1.5;
+    max-width: 520px;
+  }
+
+  /* ==========================================================
+     PULSANTE (destra)
+     ========================================================== */
+  .btn-contattaci {
+    display: inline-block;
+    padding: 0.7rem 2.2rem;
+    background: var(--accent-color);
+    color: white;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border-radius: 50px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 3px 16px rgba(191, 49, 49, 0.25);
+  }
+
+  .btn-contattaci:hover {
+    background: var(--text-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(191, 49, 49, 0.35);
+    color: white;
+  }
+
+  /* ==========================================================
+     MOBILE
+     ========================================================== */
+  @media (max-width: 768px) {
+    .contattaci-section {
+      padding: 2rem 0;
+    }
+
+    .container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+    }
+
+    .contattaci-icon-wrapper {
+      width: 70px;
+      height: 70px;
+      margin-right: 0;
+    }
+
+    .contattaci-icon {
+      width: 34px;
+      height: 34px;
+    }
+
+    .contattaci-text {
+      padding-right: 0;
+    }
+
+    .contattaci-text p {
+      max-width: 100%;
+    }
+
+    .btn-contattaci {
+      padding: 0.6rem 1.8rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .contattaci-section {
+      padding: 1.5rem 0;
+    }
+
+    .contattaci-icon-wrapper {
+      width: 60px;
+      height: 60px;
+    }
+
+    .contattaci-icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    .contattaci-text h2 {
+      font-size: 1.3rem;
+    }
+
+    .contattaci-text p {
+      font-size: 0.85rem;
+    }
+
+    .btn-contattaci {
+      padding: 0.5rem 1.5rem;
+      font-size: 0.85rem;
+    }
+  }
+</style>
