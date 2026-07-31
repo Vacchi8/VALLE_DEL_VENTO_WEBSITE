@@ -1,7 +1,7 @@
 ---
 title: "Iscrizioni anno 2024"
 date: 2024-09
-image: "src/content/news/images/iscrizione2024.jpeg"
+image: "/images/iscrizione2024.jpeg"
 excerpt: "Aperte le Iscrizioni alla Scuola di Teatro"
 ---
 

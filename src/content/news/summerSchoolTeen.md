@@ -1,7 +1,7 @@
 ---
 title: "Summer School Teen"
 date: 2025-09-19
-image: "src/content/news/images/tessitore-prove-spettacolo.jpg"
+image: "/images/tessitore-prove-spettacolo.jpg"
 excerpt: "A kind of dream, spettacolo teatrale open air a cura di Piccola Scuola Popolare di Teatro Valsusa"
 ---
 

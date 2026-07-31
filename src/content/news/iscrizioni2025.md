@@ -1,7 +1,7 @@
 ---
 title: "Iscrizioni anno 2025"
 date: 2025-09
-image: "src/content/news/images/Locandina-2025.jpg"
+image: "/images/Locandina-2025.jpg"
 excerpt: "Aperte le Iscrizioni alla Scuola di Teatro"
 ---
 
