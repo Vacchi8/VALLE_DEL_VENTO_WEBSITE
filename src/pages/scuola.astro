@@ -1,19 +1,320 @@
 ---
+// src/pages/scuola.astro
+
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import { heroConfig } from '../config/hero-config.js';
-
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import LoghiCarousel from '../components/LoghiCarousel.astro';
+import NewsPreview from '../components/NewsPreview.astro';
+import ContattiSection from '../components/ContattiSection.astro';
 ---
 
-<Layout>
-	<Hero 
+<Layout title="Scuola" description="la storia della Piccola Scuola Popolare di Teatro">
+  <Hero
     image={heroConfig.scuola.image}
     title={heroConfig.scuola.title}
     subtitle={heroConfig.scuola.subtitle}
-  	/>
+  />
 
-	
+  <section class="scuola-page">
+    <div class="container">
+
+      <!-- ===== 1. LA NOSTRA STORIA ===== -->
+      <div class="story-block">
+        <div class="story-text">
+          <h2>La Nostra Storia</h2>
+          <p>
+            L’esperienza di questa Piccola Scuola nasce nel 2011, da un'idea di Alessandro Tessitore, con un piccolissimo numero di allievi. L’idea di fondo è quella di unire l’aspetto della ricerca con quello del laboratorio teatrale, indagando con i ragazzi il loro immaginario e i loro punti di osservazione della contemporaneità, e provare a trasformare le loro intuizioni in opere teatrali, costruite totalmente da zero.
+          </p>
+          <p>
+            Dopo cinque anni di esistenza come gruppo informale, dal 2016 la scuola è diventata un'associazione culturale, attiva e radicata sul territorio della bassa valle di Susa.
+          </p>
+          <p>
+            <em>«La Piccola Scuola di Teatro è un esperimento sociale, una piccola comunità creativa, fatta dai ragazzi e dalle loro famiglie, inusuale e rara, preziosa e allegra.»</em>
+          </p>
+        </div>
+        <div class="story-image">
+          <img
+            src="../../public/images/scuola/logoPSPT.png"
+            alt="Momenti della storia della scuola"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <!-- ===== 2. LA NOSTRA FILOSOFIA ===== -->
+      <div class="philosophy-block">
+        <h2>La Nostra Filosofia</h2>
+        <p>
+          La Piccolezza è la dimensione più adeguata per mantenere un'alta qualità del lavoro, e fa riferimento al numero di allievi ma anche alla loro età, visto che sono tutti bambini e ragazzi a partire dagli 11 anni.
+        </p>
+        <p>
+          È una Scuola che pretende di proporre agli allievi e alle loro famiglie un modo di fare arte insieme, al di là dell'aspetto economico, che è nata grazie alle offerte volontarie e anonime dei partecipanti, per questo si fregia dell'aggettivo "popolare".
+        </p>
+        <p>
+          Il tentativo è quello di creare un ambiente creativo e divertente, in grado di ragionare e dare risposte creative alle problematiche del presente, e vivere un'esperienza teatrale totale, dall'ideazione alla produzione finale, senza concentrarsi soltanto sulla parentesi del palcoscenico, ma anche e soprattutto su ciò che sta attorno e dietro.
+        </p>
+      </div>
+
+      <!-- ===== 3. ALESSANDRO TESSITORE ===== -->
+      <div class="teacher-block">
+        <div class="teacher-image">
+          <img
+            src="../../public/images/scuola/alessandro-tessitore.jpg"
+            alt="Alessandro Tessitore"
+            loading="lazy"
+          />
+        </div>
+        <div class="teacher-text">
+          <h2>Alessandro Tessitore</h2>
+          <p>
+            Regista e performer teatrale, dirige e recita in moltissimi progetti dal 1996, oltre che svolgere laboratori artistici e teatrali nelle scuole della provincia di Torino.
+          </p>
+          <p>
+            Allievo diretto di Ellen Stewart (LaMama E.T.C. New York), ha studiato per tre anni al prestigioso International Symposium for Directors a LaMama Umbria International di Spoleto, con maestri del calibro di Yoshi Oida, Andrei Serban, Richard Sheckner, Maxine Kleine, Rhodessa Jones, Vito Taufer.
+          </p>
+          <p>
+            Come attore ha studiato con Nikolaj Karpov (Mejerc’old), Tapa Sudana (Peter Brook), Rena Miretchka (Jerzi Grotowsy), Danio Manfredini e altri.
+          </p>
+          <p>
+            Ha lavorato con diverse compagnie internazionali come La Fura Del Baus (Spagna), il Fort Lewis College (Colorado, U.S.A.), Konik Thtr (Spagna), Motiroti (U.K.), Marcellì Antuñez Roca (Spagna). È il fondatore del progetto Biocide, nei primi anni 2000, dello spettacolo “Minotauro” e della Piccola Scuola Popolare di Teatro della Valsusa.
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== 4. GALLERIA (opzionale) ===== -->
+      <!--
+      <div class="gallery-block">
+        <h2>Galleria</h2>
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="/images/scuola/gallery/foto-1.jpg" alt="Descrizione" loading="lazy" /></div>
+          <div class="gallery-item"><img src="/images/scuola/gallery/foto-2.jpg" alt="Descrizione" loading="lazy" /></div>
+          <div class="gallery-item"><img src="/images/scuola/gallery/foto-3.jpg" alt="Descrizione" loading="lazy" /></div>
+          <div class="gallery-item"><img src="/images/scuola/gallery/foto-4.jpg" alt="Descrizione" loading="lazy" /></div>
+        </div>
+      </div>
+      -->
+
+    </div>
+  </section>
+  <ContattiSection />
+  <NewsPreview />
+  <LoghiCarousel />
 </Layout>
+
+<style>
+  /* ==========================================================
+     PAGINA SCUOLA
+     ========================================================== */
+  .scuola-page {
+    padding: 4rem 0;
+    background: transparent;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ==========================================================
+     BLOCCHI DI TESTO + IMMAGINI
+     ========================================================== */
+  .story-block{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: start; /* Allinea in cima */
+    margin-bottom: 4rem;
+  }
+  .teacher-block {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    align-items: start; /* Allinea in cima */
+    margin-bottom: 4rem;
+  }
+
+  .story-text h2,
+  .teacher-text h2,
+  .philosophy-block h2 {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 700;
+    color: var(--text-color);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .story-text p,
+  .teacher-text p,
+  .philosophy-block p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    opacity: 0.85;
+    margin-bottom: 1.25rem;
+  }
+
+  .story-text em {
+    display: block;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    padding: 1rem 0 0 1.5rem;
+    border-left: 4px solid var(--accent-color);
+    opacity: 0.9;
+    margin-top: 1rem;
+  }
+
+  /* ==========================================================
+     IMMAGINI - DIMENSIONI UGUALI, ALLINEATE IN CIMA
+     ========================================================== */
+  .story-image,
+  .teacher-image {
+    max-width: 260px;
+    width: 100%;
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+
+  .story-image img,
+  .teacher-image img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1; /* Forza un rapporto quadrato */
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    display: block;
+  }
+
+  /* ==========================================================
+     FILOSOFIA (centrata)
+     ========================================================== */
+  .philosophy-block {
+    max-width: 850px;
+    margin: 0 auto 4rem auto;
+    text-align: center;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(125, 10, 10, 0.06);
+    border-bottom: 1px solid rgba(125, 10, 10, 0.06);
+  }
+
+  .philosophy-block p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    opacity: 0.85;
+    margin-bottom: 1.25rem;
+    text-align: left;
+  }
+
+  /* ==========================================================
+     GALLERIA (opzionale)
+     ========================================================== */
+  .gallery-block {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(125, 10, 10, 0.08);
+  }
+
+  .gallery-block h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .gallery-item {
+    overflow: hidden;
+    border-radius: 8px;
+    aspect-ratio: 1 / 1;
+    background: var(--secondary-color);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .gallery-item img:hover {
+    transform: scale(1.05);
+  }
+
+  /* ==========================================================
+     MOBILE
+     ========================================================== */
+  @media (max-width: 768px) {
+    .story-block,
+    .teacher-block {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .story-image,
+    .teacher-image {
+      max-width: 180px;
+      order: -1;
+    }
+
+    .story-image img,
+    .teacher-image img {
+      max-height: 180px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+    }
+
+    .philosophy-block {
+      padding: 1.5rem 0;
+      margin-bottom: 3rem;
+    }
+
+    .philosophy-block p,
+    .story-text p,
+    .teacher-text p {
+      font-size: 0.95rem;
+    }
+
+    .story-text em {
+      font-size: 1rem;
+      padding-left: 1rem;
+    }
+
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .scuola-page {
+      padding: 2rem 0;
+    }
+
+    .story-text h2,
+    .teacher-text h2,
+    .philosophy-block h2 {
+      font-size: 1.5rem;
+    }
+
+    .story-image,
+    .teacher-image {
+      max-width: 140px;
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+  }
+</style>

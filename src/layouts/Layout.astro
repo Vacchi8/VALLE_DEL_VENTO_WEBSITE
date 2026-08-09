@@ -2,6 +2,21 @@
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
 import Navbar from '../components/Navbar.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+// Valori di default che non cambiano mai
+const siteName = 'Valle Del Vento';
+const siteUrl = 'https://valle-del-vento-website.pages.dev'; // ← Aggiorna con dominio definitivo
+const defaultImage = '/images/favicon.ico'; //inserire logo valle del vento
+const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+
+
 ---
 
 <!doctype html>
@@ -12,12 +27,33 @@ import Navbar from '../components/Navbar.astro';
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
+		 <!-- ===== IUBENDA COOKIE BANNER ===== -->
+    	<script type="text/javascript" src="https://embeds.iubenda.com/widgets/eb6c1d61-4373-40db-ae76-629640268254.js"></script>
 		<!-- Font -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"/>
-		<title>Astro Basics</title>
+		
+		<title>{fullTitle}</title>
+		<meta name="description" content={description} />
+		
+		<!-- Open Graph -->
+		<meta property="og:title" content={fullTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={defaultImage} />
+		<meta property="og:url" content={`${siteUrl}${Astro.url.pathname}`} />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={siteName} />
+		
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={fullTitle} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={defaultImage} />
+
+		<!-- Canonical -->
+   		<link rel="canonical" href={`${siteUrl}${Astro.url.pathname}`} />
 	</head>
 	<body>
 		<Navbar />
@@ -42,4 +78,52 @@ import Navbar from '../components/Navbar.astro';
 	div {
 		height: 100vh;
 	}
+	/* ==========================================================
+   BARRA DI SCORRIMENTO MODERNA (SCROLLBAR)
+   ========================================================== */
+
+/* Per Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) transparent;
+}
+
+/* Per Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(191, 49, 49, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-color);
+  box-shadow: 0 0 15px rgba(125, 10, 10, 0.3);
+}
+
+/* Versione più elegante con gradiente */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent-color), var(--text-color));
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--text-color), var(--accent-color));
+}
+
+/* Per le aree con overflow (es. dropdown, modali) */
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
 </style>

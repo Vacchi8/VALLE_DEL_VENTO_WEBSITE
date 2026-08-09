@@ -1,39 +1,34 @@
 ---
 // src/components/NewsPreview.astro
+// @ts-nocheck
 
-const newsModules = import.meta.glob('../content/news/*.md', { eager: true }) as Record<string, {
-  url: string;
-  frontmatter: {
-    date: string;
-    title: string;
-    excerpt: string;
-    image?: string;
+// Legge tutti i file .md dalla cartella news
+const newsModules = import.meta.glob('../content/news/*.md', { eager: true });
+
+const allNews = Object.entries(newsModules).map(([filePath, module]) => {
+  const fileName = filePath.split('/').pop();
+  const slug = fileName ? fileName.replace(/\.md$/, '') : '';
+  return {
+    ...module,
+    slug,
+    url: `/news/${slug}`,
   };
-}>;
+});
 
-type NewsItem = {
-  url: string;
-  frontmatter: {
-    date: string;
-    title: string;
-    excerpt: string;
-    image?: string;
-  };
-};
-
-const allNews = Object.values(newsModules) as NewsItem[];
-
-const sortedNews = [...allNews].sort((a: NewsItem, b: NewsItem) => {
+// Ordina per data (dalla più recente)
+const sortedNews = [...allNews].sort((a, b) => {
   return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
 });
 
+// Prende solo le ultime 3
 const latestNews = sortedNews.slice(0, 3);
 
-function formatDate(date: string | Date): string {
+// Formatta la data in "28 luglio 2025"
+function formatDate(date) {
   const d = new Date(date);
   const day = d.getDate();
   const month = d.toLocaleString('it-IT', { month: 'long' });
-  const year = d.getFullYear().toString();
+  const year = d.getFullYear();
   return `${day} ${month} ${year}`;
 }
 ---
@@ -48,30 +43,32 @@ function formatDate(date: string | Date): string {
     {latestNews.length > 0 ? (
       <div class="news-grid">
         {latestNews.map((news: NewsItem) => (
-          <article class="news-card">
-            <div class="news-card-image-wrapper">
-              {news.frontmatter.image ? (
-                <img 
-                  src={news.frontmatter.image} 
-                  alt={news.frontmatter.title} 
-                  class="news-card-image"
-                  loading="lazy"
-                />
-              ) : (
-                <div class="news-card-image-placeholder">
-                  <span>🎭</span>
-                </div>
-              )}
-            </div>
-            <div class="news-card-content">
-              <time class="news-card-date">
-                {formatDate(news.frontmatter.date)}
-              </time>
-              <h3>{news.frontmatter.title}</h3>
-              <p>{news.frontmatter.excerpt}</p>
-              <a href={news.url} class="news-card-link">Leggi tutto →</a>
-            </div>
-          </article>
+          <a href={news.url} class="news-card-link-wrapper">
+            <article class="news-card">
+              <div class="news-card-image-wrapper">
+                {news.frontmatter.image ? (
+                  <img 
+                    src={news.frontmatter.image} 
+                    alt={news.frontmatter.title} 
+                    class="news-card-image"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div class="news-card-image-placeholder">
+                    <span>🎭</span>
+                  </div>
+                )}
+              </div>
+              <div class="news-card-content">
+                <time class="news-card-date">
+                  {formatDate(news.frontmatter.date)}
+                </time>
+                <h3>{news.frontmatter.title}</h3>
+                <p>{news.frontmatter.excerpt}</p>
+                <span class="news-card-link">Leggi tutto →</span>
+              </div>
+            </article>
+          </a>
         ))}
       </div>
     ) : (
@@ -124,6 +121,22 @@ function formatDate(date: string | Date): string {
     gap: 2rem;
   }
 
+  /* ===== RENDE L'INTERA CARD CLICCABILE ===== */
+  .news-card-link-wrapper {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .news-card-link-wrapper:hover {
+    transform: translateY(-6px);
+  }
+
+  .news-card-link-wrapper:hover .news-card {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.20);
+  }
+
   .news-card {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(4px);
@@ -131,16 +144,12 @@ function formatDate(date: string | Date): string {
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 16px;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+    height: 100%;
   }
 
-  .news-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.20);
-  }
-
-  /* ===== IMMAGINE - Metodo padding-bottom (robusto) ===== */
+  /* ===== IMMAGINE ===== */
   .news-card-image-wrapper {
     position: relative;
     width: 100%;
@@ -161,7 +170,7 @@ function formatDate(date: string | Date): string {
     transition: transform 0.5s ease;
   }
 
-  .news-card:hover .news-card-image {
+  .news-card-link-wrapper:hover .news-card-image {
     transform: scale(1.05);
   }
 
@@ -213,13 +222,12 @@ function formatDate(date: string | Date): string {
 
   .news-card-link {
     color: var(--accent-color);
-    text-decoration: none;
     font-weight: 600;
     font-size: 0.9rem;
     transition: color 0.3s ease;
   }
 
-  .news-card-link:hover {
+  .news-card-link-wrapper:hover .news-card-link {
     color: var(--text-color);
   }
 

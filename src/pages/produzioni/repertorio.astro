@@ -1,0 +1,668 @@
+---
+// src/pages/produzioni/repertorio.astro
+// @ts-nocheck
+
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import { heroConfig } from '../../config/hero-config.js';
+import ContattiSection from '../../components/ContattiSection.astro';
+import NewsPreview from '../../components/NewsPreview.astro';
+import LoghiCarousel from '../../components/LoghiCarousel.astro';
+import ScuolaSection from '../../components/ScuolaSection.astro';
+
+// R2 base URL per le gallerie
+const R2_BASE = 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev';
+
+function normalizeCoverPath(coverPath, slug) {
+  if (typeof coverPath === 'string' && coverPath.trim()) {
+    let path = coverPath.trim();
+    path = path.replace(/-(jpg|png)$/i, '.$1');
+    if (!path.startsWith('/') && !/^https?:\/\//i.test(path)) {
+      path = `/images/produzioni/${path}`;
+    }
+    if (!/\.(jpe?g|png|webp|avif|svg)$/i.test(path)) {
+      path += '.jpg';
+    }
+    return path;
+  }
+  return `/images/produzioni/${slug}.jpg`;
+}
+
+function getProduzioneImages(slug, galleryCount, coverPath) {
+  const copertina = normalizeCoverPath(coverPath, slug);
+  const basePath = `${R2_BASE}/${slug}`;
+  const gallery = [];
+  for (let i = 1; i <= (galleryCount || 0); i++) {
+    gallery.push(`${basePath}/${i}.jpg`);
+  }
+  return { copertina, gallery };
+}
+
+const modules = import.meta.glob('../../content/produzioni/repertorio/*.md');
+
+const moduleEntries = Object.entries(modules);
+
+const allProduzioni = await Promise.all(
+  moduleEntries.map(async ([filePath, module]) => {
+    const fileSlug = filePath.split('/').pop().replace(/\.md$/, '');
+    const mod = await module();
+    const { frontmatter, default: Content } = mod;
+    const slug = frontmatter.slug || fileSlug;
+    return {
+      slug,
+      fileSlug,
+      frontmatter,
+      Content,
+      render: mod.render,
+    };
+  })
+);
+
+const sortedProduzioni = allProduzioni.sort((a, b) => {
+  return b.frontmatter.date - a.frontmatter.date;
+});
+
+function formatDate(date) {
+  return date.toString();
+}
+---
+
+<Layout title="Repertorio" description="Spettacoli che hanno fatto la storia della Piccola Scuola Popolare di Teatro">
+  <Hero 
+    image={heroConfig.produzioni.repertorio.image}
+    title={heroConfig.produzioni.repertorio.title}
+    subtitle={heroConfig.produzioni.repertorio.subtitle}
+  />
+
+  <section class="produzioni-page">
+    <div class="container">
+      <div class="produzioni-list">
+        {sortedProduzioni.map(function(produzione) {
+          const { copertina, gallery } = getProduzioneImages(
+            produzione.slug,
+            produzione.frontmatter.gallery_count,
+            produzione.frontmatter.cover
+          );
+          const hasGallery = gallery.length > 0;
+          const isSpecial = produzione.frontmatter.isSpecial || false;
+          
+          const sliderId = `slider-${produzione.slug}`;
+          
+          return (
+            <article class={`produzione-item ${isSpecial ? 'special' : ''}`}>
+              <div class="produzione-content">
+                <div class="produzione-text">
+                  <h2>{produzione.frontmatter.title}</h2>
+                  <div class="produzione-meta">
+                    <span class="meta-anno">{formatDate(produzione.frontmatter.date)}</span>
+                    {produzione.frontmatter.regia && (
+                      <span class="meta-regia">Regia: {produzione.frontmatter.regia}</span>
+                    )}
+                    {produzione.frontmatter.durata && (
+                      <span class="meta-durata">Durata: {produzione.frontmatter.durata}</span>
+                    )}
+                    {produzione.frontmatter.youtube && (
+                      <a href={produzione.frontmatter.youtube} target="_blank" rel="noopener noreferrer" class="meta-youtube">
+                        ▶️ Ascolta su YouTube
+                      </a>
+                    )}
+                  </div>
+                  <div class="produzione-descrizione">
+                    <produzione.Content />
+                  </div>
+                </div>
+                
+                <div class="produzione-media">
+                  <div class="produzione-copertina">
+                    <img 
+                      src={copertina} 
+                      alt={produzione.frontmatter.title}
+                      onerror="console.error('Copertina non trovata:', this.src)"
+                    />
+                  </div>
+                  
+                  {hasGallery && (
+                    <div class="produzione-gallery">
+                      <h4>Galleria</h4>
+                      <div class="gallery-slider" id={sliderId}>
+                        <div class="slider-container">
+                          <div class="slider-track">
+                            {gallery.map(function(img, index) {
+                              return (
+                                <div class="slider-slide" data-index={index}>
+                                  <img 
+                                    src={img} 
+                                    alt={`Foto ${index + 1} di ${produzione.frontmatter.title}`}
+                                    loading="lazy"
+                                    onclick={`window.openLightbox('${sliderId}', ${index})`}
+                                    onerror="console.error('Gallery image non trovata:', this.src)"
+                                  />
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                        <button class="slider-btn prev" onclick={`window.moveSlide('${sliderId}', -1)`}>‹</button>
+                        <button class="slider-btn next" onclick={`window.moveSlide('${sliderId}', 1)`}>›</button>
+                        <span class="slider-counter" id={`${sliderId}-counter`}>1 / {gallery.length}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+  <ScuolaSection />
+  <ContattiSection />
+    <NewsPreview />
+    <LoghiCarousel />
+</Layout>
+
+<style>
+
+  .produzioni-page {
+    padding: 3rem 0 4rem 0;
+    background: transparent;
+  }
+
+  .produzioni-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  .produzione-item {
+    padding-bottom: 4rem;
+    border-bottom: 1px solid rgba(125, 10, 10, 0.06);
+  }
+
+  .produzione-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .produzione-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .produzione-text h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 0.75rem 0;
+  }
+
+  .produzione-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.6;
+  }
+
+  .meta-youtube {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+    opacity: 1;
+  }
+
+  .meta-youtube:hover {
+    text-decoration: underline;
+  }
+
+  .produzione-descrizione {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    opacity: 0.85;
+  }
+
+  .produzione-descrizione p {
+    margin-bottom: 1rem;
+  }
+
+  .produzione-descrizione h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .produzione-media {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .produzione-copertina {
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--secondary-color);
+  }
+
+  .produzione-copertina img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ==========================================================
+     CAROSELLO GALLERY
+     ========================================================== */
+  .produzione-gallery {
+    margin-top: 0.5rem;
+  }
+
+  .produzione-gallery h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+    opacity: 0.5;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 0.75rem 0;
+  }
+
+  .gallery-slider {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--secondary-color);
+  }
+
+  .slider-container {
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+
+  .slider-track {
+    display: flex;
+    transition: transform 0.4s ease;
+    height: 100%;
+  }
+
+  .slider-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--secondary-color);
+    cursor: pointer;
+  }
+
+  .slider-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    z-index: 10;
+  }
+
+  .slider-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .slider-btn.prev {
+    left: 0.5rem;
+  }
+
+  .slider-btn.next {
+    right: 0.5rem;
+  }
+
+  .slider-counter {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    z-index: 10;
+  }
+
+  .produzione-item.special {
+    background: rgba(191, 49, 49, 0.04);
+    padding: 2rem;
+    border-radius: 16px;
+    border-left: 4px solid var(--accent-color);
+  }
+
+  /* ==========================================================
+     LIGHTBOX
+     ========================================================== */
+  .lightbox-gallery {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 2rem;
+    flex-direction: column;
+    backdrop-filter: blur(8px);
+  }
+
+  .lightbox-gallery.active {
+    display: flex;
+  }
+
+  .lightbox-gallery .lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+  }
+
+  .lightbox-gallery .lightbox-close:hover {
+    opacity: 1;
+  }
+
+  .lightbox-gallery .lightbox-image {
+    max-width: 90%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .lightbox-gallery .lightbox-controls {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+
+  .lightbox-gallery .lightbox-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1.8rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .lightbox-gallery .lightbox-btn:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+  }
+
+  .lightbox-gallery .lightbox-counter {
+    color: white;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    min-width: 60px;
+    text-align: center;
+  }
+
+  /* ==========================================================
+     MOBILE
+     ========================================================== */
+  @media (max-width: 768px) {
+    .page-intro {
+      padding: 1.5rem 0 0 0;
+    }
+
+    .intro-text {
+      font-size: 1rem;
+      padding: 0 0.5rem;
+    }
+
+    .produzioni-page {
+      padding: 2rem 0 3rem 0;
+    }
+
+    .produzioni-list {
+      gap: 3rem;
+    }
+
+    .produzione-item {
+      padding-bottom: 3rem;
+    }
+
+    .produzione-content {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .produzione-media {
+      order: -1;
+    }
+
+    .produzione-copertina img {
+      max-height: 300px;
+      object-fit: contain;
+    }
+
+    .slider-btn {
+      width: 28px;
+      height: 28px;
+      font-size: 1rem;
+    }
+
+    .produzione-item.special {
+      padding: 1.5rem;
+    }
+
+    .lightbox-gallery .lightbox-image {
+      max-width: 100%;
+      max-height: 60vh;
+    }
+
+    .lightbox-gallery .lightbox-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 1.4rem;
+    }
+
+    .lightbox-gallery .lightbox-controls {
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .produzione-content {
+      gap: 1rem;
+    }
+
+    .produzione-copertina img {
+      max-height: 220px;
+    }
+
+    .produzione-item.special {
+      padding: 1rem;
+    }
+  }
+</style>
+
+<!-- ========================================================== -->
+<!-- LIGHTBOX -->
+<!-- ========================================================== -->
+<div id="lightboxGallery" class="lightbox-gallery" onclick="closeLightboxGallery()">
+  <button class="lightbox-close" onclick="closeLightboxGallery()">✕</button>
+  <img id="lightboxGalleryImage" class="lightbox-image" src="" alt="Immagine ingrandita" />
+  <div class="lightbox-controls">
+    <button class="lightbox-btn prev" onclick="changeLightboxImage(-1)">‹</button>
+    <span class="lightbox-counter" id="lightboxGalleryCounter">1 / 1</span>
+    <button class="lightbox-btn next" onclick="changeLightboxImage(1)">›</button>
+  </div>
+</div>
+
+<script>
+// @ts-nocheck
+
+  // ============================================================
+  // STATO DEI CAROSELLI
+  // ============================================================
+  window.sliders = {};
+
+  // ============================================================
+  // FUNZIONI PER IL CAROSELLO
+  // ============================================================
+  window.moveSlide = function(sliderId, direction) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) {
+      console.error('Slider non trovato:', sliderId);
+      return;
+    }
+
+    const track = slider.querySelector('.slider-track');
+    const slides = slider.querySelectorAll('.slider-slide');
+    const totalSlides = slides.length;
+
+    if (!window.sliders[sliderId]) {
+      window.sliders[sliderId] = 0;
+    }
+
+    let currentIndex = window.sliders[sliderId] + direction;
+    if (currentIndex < 0) currentIndex = totalSlides - 1;
+    if (currentIndex >= totalSlides) currentIndex = 0;
+
+    window.sliders[sliderId] = currentIndex;
+
+    const offset = -(currentIndex * 100);
+    track.style.transform = `translateX(${offset}%)`;
+
+    const counter = document.getElementById(`${sliderId}-counter`);
+    if (counter) {
+      counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
+    }
+  };
+
+  // ============================================================
+  // LIGHTBOX
+  // ============================================================
+  let lightboxImages = [];
+  let lightboxIndex = 0;
+  const lightboxEl = document.getElementById('lightboxGallery');
+  const lightboxImg = document.getElementById('lightboxGalleryImage');
+  const lightboxCounter = document.getElementById('lightboxGalleryCounter');
+
+  window.openLightbox = function(sliderId, index) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) {
+      console.error('Slider non trovato:', sliderId);
+      return;
+    }
+
+    const slides = slider.querySelectorAll('.slider-slide img');
+    lightboxImages = Array.from(slides).map(img => img.src);
+    lightboxIndex = index;
+
+    updateLightbox();
+    lightboxEl.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeLightboxGallery = function() {
+    lightboxEl.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  window.changeLightboxImage = function(direction) {
+    const newIndex = lightboxIndex + direction;
+    if (newIndex >= 0 && newIndex < lightboxImages.length) {
+      lightboxIndex = newIndex;
+      updateLightbox();
+    }
+  };
+
+  function updateLightbox() {
+    if (lightboxImages.length > 0) {
+      lightboxImg.src = lightboxImages[lightboxIndex] || '';
+      lightboxCounter.textContent = `${lightboxIndex + 1} / ${lightboxImages.length}`;
+    }
+  }
+
+  // ============================================================
+  // INIZIALIZZAZIONE
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.gallery-slider').forEach(function(slider) {
+      const sliderId = slider.id;
+      const slides = slider.querySelectorAll('.slider-slide');
+      const totalSlides = slides.length;
+      window.sliders[sliderId] = 0;
+
+      const track = slider.querySelector('.slider-track');
+      if (track) {
+        track.style.transform = 'translateX(0%)';
+      }
+
+      const counter = document.getElementById(`${sliderId}-counter`);
+      if (counter) {
+        counter.textContent = `1 / ${totalSlides}`;
+      }
+    });
+  });
+
+  // ============================================================
+  // TASTIERA PER LIGHTBOX
+  // ============================================================
+  document.addEventListener('keydown', function(e) {
+    if (!lightboxEl.classList.contains('active')) return;
+
+    if (e.key === 'Escape') {
+      window.closeLightboxGallery();
+    } else if (e.key === 'ArrowLeft') {
+      window.changeLightboxImage(-1);
+    } else if (e.key === 'ArrowRight') {
+      window.changeLightboxImage(1);
+    }
+  });
+
+  // Impedisci la chiusura quando si clicca sull'immagine o sui controlli
+  document.addEventListener('DOMContentLoaded', function() {
+    if (lightboxImg) {
+      lightboxImg.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+    document.querySelectorAll('.lightbox-controls').forEach(function(controls) {
+      controls.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    });
+  });
+</script>

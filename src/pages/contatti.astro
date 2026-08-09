@@ -1,0 +1,573 @@
+---
+// src/pages/contatti.astro
+
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import { heroConfig } from '../config/hero-config.js';
+import NewsPreview from '../components/NewsPreview.astro';
+import ProduzioniSection from '../components/ProduzioniSection.astro';
+import LoghiCarousel from '../components/LoghiCarousel.astro';
+---
+
+<Layout title="Contatti" description="Contatti e informazioni">
+  <Hero 
+    image={heroConfig.contatti.image}
+    title={heroConfig.contatti.title}
+    subtitle={heroConfig.contatti.subtitle}
+  />
+
+  <section class="contatti-page">
+    <div class="container">
+
+      <!-- ===== INFO DI CONTATTO ===== -->
+      <div class="contatti-grid">
+        <div class="contatti-item">
+          <img src="/icons/location-pin-svgrepo-com.svg" alt="Indirizzo" class="contatti-icon" />
+          <h3>Indirizzo</h3>
+          <p>
+            <a href="https://goo.gl/maps/8LAqXJTa3VKFNnaaA" target="_blank" rel="noopener noreferrer">
+              Associazione Mannus Club<br />
+              Via Sant'Ambrogio 46/a<br />
+              10040 Villar Dora TO
+            </a>
+          </p>
+        </div>
+        <div class="contatti-item">
+          <img src="/icons/envelope-svgrepo-com.svg" alt="Email" class="contatti-icon" />
+          <h3>Email</h3>
+          <p><a href="mailto:info@piccolascuoladiteatro.it">info@piccolascuoladiteatro.it</a></p>
+        </div>
+        <div class="contatti-item">
+          <img src="/icons/phone-handle-svgrepo-com.svg" alt="Telefono" class="contatti-icon" />
+          <h3>Telefono</h3>
+          <p>da inserire</p>
+        </div>
+      </div>
+
+      <!-- ===== ORARI CORSI ===== -->
+      <div class="orari-section">
+        <h2>Gruppi e Orari</h2>
+        <p class="orari-giorno">Ogni Venerdì</p>
+        <div class="orari-grid">
+          <div class="orari-item">
+            <span class="orario">15:00 - 17:00</span>
+            <span class="fascia">Prima / Terza Media</span>
+          </div>
+          <div class="orari-item">
+            <span class="orario">17:00 - 19:00</span>
+            <span class="fascia">Prima / Terza Superiore</span>
+          </div>
+          <div class="orari-item">
+            <span class="orario">19:00 - 21:00</span>
+            <span class="fascia">Dalla Quarta Superiore</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== MODULO + MAPPA ===== -->
+      <div class="form-map-wrapper">
+        <!-- Modulo di contatto -->
+        <div class="form-container">
+          <h2>Contattaci con una mail</h2>
+          <form id="contactForm" class="contact-form">
+            <div class="form-group">
+              <input type="text" id="name" name="name" required />
+              <label for="name">Nome Cognome</label>
+            </div>
+            <div class="form-group">
+              <input type="email" id="email" name="email" required />
+              <label for="email">La tua Email</label>
+            </div>
+            <div class="form-group">
+              <textarea id="message" name="message" rows="5" required></textarea>
+              <label for="message">Scrivi qui il tuo messaggio...</label>
+            </div>
+            <button type="submit" class="btn-invia">Invia</button>
+          </form>
+          <div id="formFeedback" class="form-feedback" style="display:none;"></div>
+        </div>
+
+        <!-- Mappa -->
+        <div class="map-container">
+          <h2>Dove Siamo</h2>
+          <div class="map-wrapper">
+            <iframe 
+              src="https://www.google.com/maps/embed/v1/place?q=Via+Sant%27Ambrogio+46%2FA+Villar+Dora+TO&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Mappa della scuola"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SOCIAL ===== -->
+      <div class="social-section">
+        <h2>Seguici anche su</h2>
+        <div class="social-links">
+          <a href="https://www.instagram.com/valle.del.vento_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+          <a href="https://www.facebook.com/piccolascuoladiteatro/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <i class="bi bi-facebook"></i>
+          </a>
+          <a href="https://www.youtube.com/channel/UCyNSnCO35lHOKPURoNH-Pog" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <i class="bi bi-youtube"></i>
+          </a>
+          <a href="https://vimeo.com/user66877798" target="_blank" rel="noopener noreferrer" aria-label="Vimeo">
+            <i class="bi bi-vimeo"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <NewsPreview />
+    <ProduzioniSection />
+    <LoghiCarousel />
+</Layout>
+
+<style>
+  /* ==========================================================
+     PAGINA CONTATTI
+     ========================================================== */
+  .contatti-page {
+    padding: 4rem 0;
+    background: transparent;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ==========================================================
+     INFO DI CONTATTO (3 colonne)
+     ========================================================== */
+  .contatti-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .contatti-item {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .contatti-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+  }
+
+  .contatti-icon {
+    width: 40px;
+    height: 40px;
+    display: block;
+    margin: 0 auto 0.75rem auto;
+    color: var(--accent-color);
+    fill: var(--accent-color);
+}
+
+  
+
+  .contatti-item h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .contatti-item p,
+  .contatti-item a {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.75;
+    line-height: 1.6;
+    margin: 0;
+    text-decoration: none;
+  }
+
+  .contatti-item a:hover {
+    color: var(--accent-color);
+    opacity: 1;
+  }
+
+  /* ==========================================================
+     ORARI CORSI
+     ========================================================== */
+  .orari-section {
+    margin-bottom: 4rem;
+    text-align: center;
+  }
+
+  .orari-section h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+  }
+
+  .orari-giorno {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
+  .orari-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .orari-item {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background 0.3s ease;
+  }
+
+  .orari-item:hover {
+    background: rgba(191, 49, 49, 0.04);
+  }
+
+  .orario {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 0.25rem;
+  }
+
+  .fascia {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.6;
+  }
+
+  /* ==========================================================
+     MODULO + MAPPA
+     ========================================================== */
+  .form-map-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+
+  .form-container h2,
+  .map-container h2 {
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+  }
+
+  /* ===== MODULO ===== */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(125, 10, 10, 0.15);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(191, 49, 49, 0.1);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+  }
+
+  .form-group label {
+    position: absolute;
+    left: 1rem;
+    top: 0.8rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.5;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  .form-group input:focus ~ label,
+  .form-group textarea:focus ~ label,
+  .form-group input:not(:placeholder-shown) ~ label,
+  .form-group textarea:not(:placeholder-shown) ~ label {
+    top: -0.6rem;
+    left: 0.8rem;
+    font-size: 0.75rem;
+    opacity: 0.7;
+    background: var(--primary-color);
+    padding: 0 0.3rem;
+    border-radius: 4px;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    opacity: 0;
+  }
+
+  .btn-invia {
+    padding: 0.8rem 2.5rem;
+    background: var(--accent-color);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px rgba(191, 49, 49, 0.25);
+    align-self: flex-start;
+  }
+
+  .btn-invia:hover {
+    background: var(--text-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(191, 49, 49, 0.35);
+  }
+
+  .form-feedback {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+  }
+
+  .form-feedback.success {
+    background: rgba(46, 204, 113, 0.1);
+    color: #27ae60;
+    border: 1px solid #27ae60;
+  }
+
+  .form-feedback.error {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+  }
+
+  /* ===== MAPPA ===== */
+  .map-wrapper {
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--secondary-color);
+    height: 100%;
+    min-height: 350px;
+  }
+
+  .map-wrapper iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 350px;
+  }
+
+  /* ==========================================================
+     SOCIAL
+     ========================================================== */
+  .social-section {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(125, 10, 10, 0.06);
+  }
+
+  .social-section h2 {
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+  }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    font-size: 1.8rem;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+
+  .social-links a:hover {
+    background: var(--accent-color);
+    color: white;
+    transform: translateY(-4px);
+  }
+
+  /* ==========================================================
+     MOBILE
+     ========================================================== */
+  @media (max-width: 991.98px) {
+    .contatti-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .orari-grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+
+    .form-map-wrapper {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .map-wrapper {
+      min-height: 280px;
+    }
+
+    .map-wrapper iframe {
+      min-height: 280px;
+    }
+
+    .btn-invia {
+      align-self: stretch;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .contatti-page {
+      padding: 2rem 0;
+    }
+
+    .contatti-item {
+      padding: 1.5rem 1rem;
+    }
+
+    .social-links {
+      gap: 1rem;
+    }
+
+    .social-links a {
+      width: 50px;
+      height: 50px;
+      font-size: 1.4rem;
+    }
+  }
+</style>
+
+<script>
+    // @ts-nocheck
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contactForm');
+    const feedback = document.getElementById('formFeedback');
+
+    if (!form) return;
+
+    // Carica EmailJS se non è già caricato
+    function loadEmailJS() {
+      return new Promise((resolve, reject) => {
+        if (typeof emailjs !== 'undefined') {
+          resolve();
+          return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://cdn.emailjs.com/dist/email.min.js';
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error('Impossibile caricare EmailJS'));
+        document.head.appendChild(script);
+      });
+    }
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!name || !email || !message) {
+        feedback.style.display = 'block';
+        feedback.className = 'form-feedback error';
+        feedback.textContent = '❌ Tutti i campi sono obbligatori.';
+        return;
+      }
+
+      feedback.style.display = 'block';
+      feedback.className = 'form-feedback';
+      feedback.textContent = '⏳ Invio in corso...';
+
+      try {
+        await loadEmailJS();
+
+        // Inizializza EmailJS con la tua Public Key (dal vecchio sito)
+        emailjs.init('t5vJ0OCQibdnFFOf6');
+
+        const templateParams = {
+          to_email: 'giorgiovacch@gmail.com',
+          from_name: name,
+          from_email: email,
+          message: message,
+        };
+
+        const response = await emailjs.send(
+          'service_0rpedj6',    // Service ID (dal vecchio sito)
+          'template_5upavz9',   // Template ID (dal vecchio sito)
+          templateParams
+        );
+
+        feedback.className = 'form-feedback success';
+        feedback.textContent = '✅ Messaggio inviato con successo! Ti risponderemo al più presto.';
+        form.reset();
+
+      } catch (error) {
+        console.error('Errore EmailJS:', error);
+        feedback.className = 'form-feedback error';
+        feedback.textContent = '❌ Errore durante l\'invio. Riprova più tardi.';
+      }
+    });
+  });
+</script>

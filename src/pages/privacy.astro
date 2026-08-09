@@ -1,0 +1,30 @@
+---
+// src/pages/privacy.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Privacy Policy" description="Informativa sulla privacy e gestione dei dati personali">
+  <div class="container py-5">
+    <div class="legal-content">
+      <!-- Incolla il codice della Privacy Policy -->
+      <a href="https://www.iubenda.com/privacy-policy/38896889" class="iubenda-white iubenda-noiframe iubenda-embed" title="Privacy Policy ">Privacy Policy</a>
+      <script type="text/javascript">
+        (function (w,d) {
+          var loader = function () {
+            var s = d.createElement("script"), 
+                tag = d.getElementsByTagName("script")[0];
+            s.src="https://cdn.iubenda.com/iubenda.js";
+            tag.parentNode.insertBefore(s,tag);
+          };
+          if(w.addEventListener){
+            w.addEventListener("load", loader, false);
+          } else if(w.attachEvent){
+            w.attachEvent("onload", loader);
+          } else {
+            w.onload = loader;
+          }
+        })(window, document);
+      </script>
+    </div>
+  </div>
+</Layout>

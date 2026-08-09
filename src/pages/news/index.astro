@@ -1,0 +1,324 @@
+---
+// src/pages/news/index.astro
+// @ts-nocheck
+
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import { heroConfig } from '../../config/hero-config.js';
+import LoghiCarousel from '../../components/LoghiCarousel.astro';
+import ContattiSection from '../../components/ContattiSection.astro';
+
+// Legge tutti i file .md dalla cartella news
+const newsModules = import.meta.glob('../../content/news/*.md', { eager: true });
+
+const allNews = Object.entries(newsModules).map(([filePath, module]) => {
+  const slug = filePath.split('/').pop().replace(/\.md$/, '');
+  return {
+    ...module,
+    slug,
+    url: `/news/${slug}`,
+  };
+});
+
+// Ordina per data (dalla più recente)
+const sortedNews = allNews.sort((a, b) => {
+  return new Date(b.frontmatter.date) - new Date(a.frontmatter.date);
+});
+
+function formatDate(date) {
+  const d = new Date(date);
+  const day = d.getDate();
+  const month = d.toLocaleString('it-IT', { month: 'long' });
+  const year = d.getFullYear();
+  return `${day} ${month} ${year}`;
+}
+---
+
+<Layout title="News" description="Ultime notizie e aggiornamenti dalla Piccola Scuola Popolare di Teatro">
+  <Hero 
+    image={heroConfig.news.image}
+    title={heroConfig.news.title}
+    subtitle={heroConfig.news.subtitle}
+  />
+
+  
+
+  <section class="news-page">
+    <div class="container">
+      {sortedNews.length > 0 ? (
+        <div class="news-grid">
+          {sortedNews.map(function(news) {
+            return (
+              <article class="news-card">
+                <a href={news.url} class="news-card-link-wrapper">
+                  <div class="news-card-image-wrapper">
+                    {news.frontmatter.image ? (
+                      <img 
+                        src={news.frontmatter.image} 
+                        alt={news.frontmatter.title} 
+                        class="news-card-image"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div class="news-card-image-placeholder">
+                        <span>🎭</span>
+                      </div>
+                    )}
+                  </div>
+                </a>
+                <div class="news-card-content">
+                  <time class="news-card-date">
+                    {formatDate(news.frontmatter.date)}
+                  </time>
+                  <h3>
+                    <a href={news.url} class="news-card-title-link">
+                      {news.frontmatter.title}
+                    </a>
+                  </h3>
+                  <p class="news-card-excerpt">{news.frontmatter.excerpt}</p>
+                  
+                  <div class="news-card-meta">
+                    {news.frontmatter.location && (
+                      <span class="news-card-location">📍 {news.frontmatter.location}</span>
+                    )}
+                    {news.frontmatter.eventDate && (
+                      <span class="news-card-event-date">
+                        📅 {formatDate(news.frontmatter.eventDate)}
+                      </span>
+                    )}
+                  </div>
+
+                  <a href={news.url} class="news-card-link">Leggi tutto →</a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
+        <p class="no-news">Nessuna news disponibile al momento.</p>
+      )}
+    </div>
+  </section>
+
+  <ContattiSection />
+  <LoghiCarousel />
+</Layout>
+
+<style>
+  .news-page {
+    padding: 4rem 0;
+    background: transparent;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+  }
+
+  .news-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  .news-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  }
+
+  .news-card-link-wrapper {
+    display: block;
+    text-decoration: none;
+  }
+
+  .news-card-image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 60%;
+    overflow: hidden;
+    background: var(--secondary-color);
+  }
+
+  .news-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+
+  .news-card:hover .news-card-image {
+    transform: scale(1.05);
+  }
+
+  .news-card-image-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--secondary-color);
+    font-size: 4rem;
+    opacity: 0.4;
+  }
+
+  .news-card-content {
+    padding: 2rem 2rem 1.75rem;
+  }
+
+  .news-card-date {
+    font-size: 0.85rem;
+    color: var(--text-color);
+    opacity: 0.5;
+    display: block;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .news-card-title-link {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .news-card-title-link:hover {
+    color: var(--accent-color);
+  }
+
+  .news-card-excerpt {
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.75;
+    margin: 0 0 1rem 0;
+    line-height: 1.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .news-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1.25rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(125, 10, 10, 0.06);
+  }
+
+  .news-card-location {
+    font-size: 0.85rem;
+    color: var(--text-color);
+    opacity: 0.5;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .news-card-event-date {
+    font-size: 0.85rem;
+    color: var(--text-color);
+    opacity: 0.5;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .news-card-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .news-card-link:hover {
+    color: var(--text-color);
+  }
+
+  .news-card-link::after {
+    content: '→';
+    transition: transform 0.3s ease;
+  }
+
+  .news-card-link:hover::after {
+    transform: translateX(6px);
+  }
+
+  .no-news {
+    text-align: center;
+    color: var(--text-color);
+    opacity: 0.5;
+    padding: 4rem 0;
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 991.98px) {
+    .news-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .news-card-image-wrapper {
+      padding-bottom: 55%;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .news-page {
+      padding: 2rem 0;
+    }
+
+    .news-grid {
+      gap: 1.5rem;
+    }
+
+    .news-card-content {
+      padding: 1.5rem;
+    }
+
+    .news-card-title-link {
+      font-size: 1.25rem;
+    }
+
+    .news-card-excerpt {
+      font-size: 0.9rem;
+      -webkit-line-clamp: 2;
+    }
+
+    .news-card-image-wrapper {
+      padding-bottom: 60%;
+    }
+  }
+</style>
