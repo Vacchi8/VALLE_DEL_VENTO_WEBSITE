@@ -1,7 +1,7 @@
 ---
 // src/components/Hero.astro
 
-const { image, title, subtitle, height = '100vh' } = Astro.props;
+const { image, title, subtitle, height = '100vh', fontClass = ''} = Astro.props;
 ---
 
 <div 
@@ -9,7 +9,7 @@ const { image, title, subtitle, height = '100vh' } = Astro.props;
   style={`background-image: url(${image}); min-height: ${height};`}
 >
   <div class="hero-overlay">
-    <h1>{title}</h1>
+    <h1 class={fontClass}>{title}</h1>
     {subtitle && <p>{subtitle}</p>}
   </div>
 </div>
@@ -43,7 +43,7 @@ const { image, title, subtitle, height = '100vh' } = Astro.props;
     max-width: 90%;
     /* REMOVED font-family:cursive; */
   }
-
+    /* Font di default (Mulish) */
   .hero-overlay h1 {
     font-family: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     font-size: clamp(2.5rem, 8vw, 5rem);
@@ -52,6 +52,15 @@ const { image, title, subtitle, height = '100vh' } = Astro.props;
     margin-bottom: 0.5rem;
     letter-spacing: 0.02em;
   }
+
+  /* Font personalizzato per la home */
+  .hero-overlay h1.font-home {
+    font-family: "Bodoni Moda", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
 
   .hero-overlay p {
     font-family: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
