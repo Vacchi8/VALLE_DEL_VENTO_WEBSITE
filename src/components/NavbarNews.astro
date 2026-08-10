@@ -16,7 +16,7 @@
       <img 
         src="/favicon.svg" 
         alt="Valle Del Vento" 
-        height="40" 
+        height="60" 
         class="d-inline-block align-text-top me-2"
       />
       Valle Del Vento
@@ -77,14 +77,17 @@
      2. LOGO
      ========================================================== */
   .navbar-brand {
-    color: var(--text-color);
-    text-shadow: none;
-    text-decoration: none;
-    transition: color 0.3s ease, opacity 0.3s ease;
-  }
+     display: inline-flex;
+     align-items: center;
+     gap: 1.5rem;
+     color: var(--text-color);
+     text-shadow: none;
+     text-decoration: none;
+     transition: color 0.3s ease, opacity 0.3s ease;
+   }
 
-  .navbar-brand:hover {
-    opacity: 0.8;
+   .navbar-brand img {
+     display: block;
   }
 
   /* ==========================================================
@@ -382,7 +385,7 @@
 </style>
 
 <script>
-    // @ts-nocheck
+      // @ts-nocheck
 
   // ============================================================
   // 1. TOGGLE MENU MOBILE
