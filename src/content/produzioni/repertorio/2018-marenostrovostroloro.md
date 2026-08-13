@@ -5,8 +5,14 @@ cover: "/images/produzioni/marenostrovostroloro.jpg"
 excerpt: "Il dramma dei profughi raccontato dal punto di vista degli allievi."
 regia: "Alessandro Tessitore"
 durata: "70 minuti"
-gallery_count: 3
+gallery_count: 6
 slug: "marenostrovostroloro"
+
+gallery:
+- "https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/2.jpg"
+- "https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/3.jpg"
+- "https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/5.jpg"
+- "https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/6.jpg"
 ---
 
 ## Il progetto

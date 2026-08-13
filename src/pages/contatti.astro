@@ -26,9 +26,10 @@ import LoghiCarousel from '../components/LoghiCarousel.astro';
           <h3>Indirizzo</h3>
           <p>
             <a href="https://goo.gl/maps/8LAqXJTa3VKFNnaaA" target="_blank" rel="noopener noreferrer">
-              Associazione Mannus Club<br />
-              Via Sant'Ambrogio 46/a<br />
-              10040 Villar Dora TO
+              <b>sede operativa:</b> Via Sant'Ambrogio 46/a<br />
+              10040 Villar Dora (TO)<br/>
+              <b>sede legale:</b> via tetti San Mauro 29<br/>
+              10040 Almese (TO) 
             </a>
           </p>
         </div>
@@ -40,13 +41,14 @@ import LoghiCarousel from '../components/LoghiCarousel.astro';
         <div class="contatti-item">
           <img src="/icons/phone-handle-svgrepo-com.svg" alt="Telefono" class="contatti-icon" />
           <h3>Telefono</h3>
-          <p>da inserire</p>
+          <p>+39 349 318 0419</p>
         </div>
       </div>
 
       <!-- ===== ORARI CORSI ===== -->
       <div class="orari-section">
         <h2>Gruppi e Orari</h2>
+        <h3>Piccola Scuola Popolare di Teatro</h3>
         <p class="orari-giorno">Ogni Venerdì</p>
         <div class="orari-grid">
           <div class="orari-item">
@@ -217,6 +219,13 @@ import LoghiCarousel from '../components/LoghiCarousel.astro';
     font-weight: 700;
     color: var(--text-color);
     margin-bottom: 0.5rem;
+  }
+
+  .orari-section h3 {
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
   }
 
   .orari-giorno {

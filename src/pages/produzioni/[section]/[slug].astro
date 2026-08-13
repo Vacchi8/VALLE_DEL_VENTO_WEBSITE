@@ -1,0 +1,2319 @@
+---
+// src/pages/produzioni/[section]/[slug].astro
+// @ts-nocheck
+
+import Layout from '../../../layouts/LayoutNews.astro';
+
+const R2_BASE =
+  'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev';
+
+
+/* ==========================================================
+   CARICA PRODUZIONI
+========================================================== */
+
+async function getProduzioni(section) {
+
+  let modules;
+
+  if (section === 'inScena') {
+
+    modules = import.meta.glob(
+      '../../../content/produzioni/in-scena/*.md'
+    );
+
+  } else if (section === 'repertorio') {
+
+    modules = import.meta.glob(
+      '../../../content/produzioni/repertorio/*.md'
+    );
+
+  } else {
+
+    return [];
+
+  }
+
+
+  const moduleEntries =
+    Object.entries(modules);
+
+
+  const allProduzioni =
+    await Promise.all(
+
+      moduleEntries.map(
+        async ([filePath, module]) => {
+
+          const fileSlug =
+            filePath
+              .split('/')
+              .pop()
+              .replace(/\.md$/, '');
+
+
+          const mod =
+            await module();
+
+
+          const {
+            frontmatter,
+            default: Content
+          } = mod;
+
+
+          const slug =
+            frontmatter.slug ||
+            fileSlug;
+
+
+          return {
+            slug,
+            frontmatter,
+            Content,
+            render: mod.render
+          };
+
+        }
+      )
+
+    );
+
+
+  return allProduzioni.sort(
+    (a, b) =>
+      b.frontmatter.date -
+      a.frontmatter.date
+  );
+
+}
+
+
+/* ==========================================================
+   STATIC PATHS
+========================================================== */
+
+export async function getStaticPaths() {
+
+  const sections = [
+    'inScena',
+    'repertorio'
+  ];
+
+  const paths = [];
+
+
+  for (const section of sections) {
+
+    const modules =
+      section === 'inScena'
+
+        ? import.meta.glob(
+            '../../../content/produzioni/in-scena/*.md'
+          )
+
+        : import.meta.glob(
+            '../../../content/produzioni/repertorio/*.md'
+          );
+
+
+    const entries =
+      Object.entries(modules);
+
+
+    for (
+      const [filePath, module]
+      of entries
+    ) {
+
+      const fileSlug =
+        filePath
+          .split('/')
+          .pop()
+          .replace(/\.md$/, '');
+
+
+      const mod =
+        await module();
+
+
+      const {
+        frontmatter
+      } = mod;
+
+
+      const slug =
+        frontmatter.slug ||
+        fileSlug;
+
+
+      paths.push({
+        params: {
+          section,
+          slug
+        }
+      });
+
+    }
+
+  }
+
+
+  return paths;
+
+}
+
+
+/* ==========================================================
+   DATI PAGINA
+========================================================== */
+
+const {
+  section,
+  slug
+} = Astro.params;
+
+
+const produzioniList =
+  await getProduzioni(section);
+
+
+const produzione =
+  produzioniList.find(
+    (p) => p.slug === slug
+  );
+
+
+if (!produzione) {
+
+  return Astro.redirect('/404');
+
+}
+
+
+const {
+  frontmatter,
+  Content
+} = produzione;
+
+
+const currentIndex =
+  produzioniList.findIndex(
+    (p) => p.slug === slug
+  );
+
+
+const prevProduzione =
+  currentIndex > 0
+    ? produzioniList[currentIndex - 1]
+    : null;
+
+
+const nextProduzione =
+  currentIndex <
+  produzioniList.length - 1
+    ? produzioniList[currentIndex + 1]
+    : null;
+
+
+/* ==========================================================
+   FUNZIONI
+========================================================== */
+
+function formatDate(date) {
+
+  return date
+    ? date.toString()
+    : '';
+
+}
+
+
+function getGalleryImages(
+  slug,
+  count
+) {
+
+  const images = [];
+
+  for (
+    let i = 1;
+    i <= (count || 0);
+    i++
+  ) {
+
+    images.push(
+      `${R2_BASE}/${slug}/${i}.jpg`
+    );
+
+  }
+
+  return images;
+
+}
+
+
+/* ==========================================================
+   GALLERY
+========================================================== */
+
+const galleryImages =
+  frontmatter.gallery ||
+  getGalleryImages(
+    produzione.slug,
+    frontmatter.gallery_count
+  );
+
+
+const hasGallery =
+  Array.isArray(galleryImages) &&
+  galleryImages.length > 0;
+
+
+const hasMeta =
+  frontmatter.regia ||
+  frontmatter.durata ||
+  frontmatter.date;
+
+
+const coverImage =
+  frontmatter.cover ||
+  `${R2_BASE}/${produzione.slug}/copertina.jpg`;
+
+
+const isSpecial =
+  frontmatter.isSpecial ||
+  false;
+
+
+const backUrl =
+  section === 'inScena'
+    ? '/produzioni/inScena'
+    : '/produzioni/repertorio';
+
+
+const sectionName =
+  section === 'inScena'
+    ? 'In Scena'
+    : 'Repertorio';
+
+
+const galleryId =
+  `gallery-${produzione.slug}`;
+
+---
+
+
+<Layout
+  title={`${frontmatter.title} | Produzioni | Valle Del Vento`}
+>
+
+  <article class="produzione-single">
+
+    <div class="container">
+
+
+      <!-- ====================================================
+           NAVIGAZIONE SUPERIORE
+      ===================================================== -->
+
+      <nav class="produzione-nav-top">
+
+        <a
+          href={backUrl}
+          class="back-link"
+        >
+          ← Torna a {sectionName}
+        </a>
+
+
+        <div class="nav-arrows-top">
+
+          {prevProduzione && (
+
+            <a
+              href={`/produzioni/${section}/${prevProduzione.slug}`}
+              class="nav-btn-top prev"
+              title="Produzione precedente"
+            >
+
+              <span class="nav-btn-icon">
+                ‹
+              </span>
+
+              <span class="nav-btn-label">
+                {prevProduzione.frontmatter.title}
+              </span>
+
+            </a>
+
+          )}
+
+
+          {nextProduzione && (
+
+            <a
+              href={`/produzioni/${section}/${nextProduzione.slug}`}
+              class="nav-btn-top next"
+              title="Produzione successiva"
+            >
+
+              <span class="nav-btn-label">
+                {nextProduzione.frontmatter.title}
+              </span>
+
+              <span class="nav-btn-icon">
+                ›
+              </span>
+
+            </a>
+
+          )}
+
+        </div>
+
+      </nav>
+
+
+      <!-- ====================================================
+           INTESTAZIONE
+      ===================================================== -->
+
+      <header class="produzione-header">
+
+        <h1>
+          {frontmatter.title}
+        </h1>
+
+
+        {isSpecial && (
+
+          <span class="badge-special">
+            ⭐ Speciale
+          </span>
+
+        )}
+
+
+        {hasMeta && (
+
+          <div class="produzione-meta">
+
+            {frontmatter.date && (
+
+              <span class="meta-anno">
+                {formatDate(frontmatter.date)}
+              </span>
+
+            )}
+
+
+            {frontmatter.regia && (
+
+              <span class="meta-regia">
+                Regia: {frontmatter.regia}
+              </span>
+
+            )}
+
+
+            {frontmatter.durata && (
+
+              <span class="meta-durata">
+                Durata: {frontmatter.durata}
+              </span>
+
+            )}
+
+          </div>
+
+        )}
+
+      </header>
+
+
+      <!-- ====================================================
+           COPERTINA
+      ===================================================== -->
+
+      <div class="produzione-cover">
+
+        <img
+          src={coverImage}
+          alt={frontmatter.title}
+        />
+
+      </div>
+
+
+      <!-- ====================================================
+           CONTENUTO
+      ===================================================== -->
+
+      <div class="produzione-content">
+
+        <Content />
+
+      </div>
+
+
+      <!-- ====================================================
+           GALLERY
+      ===================================================== -->
+
+      {hasGallery && (
+
+        <section class="produzione-gallery">
+
+          <h3>
+            Galleria immagini
+          </h3>
+
+
+          <div
+            class="gallery-carousel"
+            id={galleryId}
+          >
+
+
+            <!-- ==================================================
+                 CAROUSEL CONTAINER
+            =================================================== -->
+
+            <div class="carousel-container">
+
+
+              <!-- ==================================================
+                   TRACK
+              =================================================== -->
+
+              <div class="carousel-track">
+
+
+                {galleryImages.map(
+                  (img, index) => (
+
+                    <div
+                      class="carousel-slide"
+                      data-index={index}
+                    >
+
+                      <img
+                        src={img}
+                        alt={`Foto ${index + 1} di ${frontmatter.title}`}
+                        loading={
+                          index === 0
+                            ? 'eager'
+                            : 'lazy'
+                        }
+                        onclick={`openLightbox('${galleryId}', ${index})`}
+                      />
+
+                    </div>
+
+                  )
+                )}
+
+
+              </div>
+
+
+              <!-- ==================================================
+                   FRECCIA PRECEDENTE
+              =================================================== -->
+
+              <button
+                type="button"
+                class="carousel-btn prev"
+                onclick={`moveCarousel('${galleryId}', -1)`}
+                aria-label="Immagine precedente"
+              >
+                ‹
+              </button>
+
+
+              <!-- ==================================================
+                   FRECCIA SUCCESSIVA
+              =================================================== -->
+
+              <button
+                type="button"
+                class="carousel-btn next"
+                onclick={`moveCarousel('${galleryId}', 1)`}
+                aria-label="Immagine successiva"
+              >
+                ›
+              </button>
+
+
+            </div>
+
+
+            <!-- ==================================================
+                 CONTATORE
+            =================================================== -->
+
+            <div class="carousel-counter">
+
+              <span
+                id={`${galleryId}-counter`}
+              >
+                1 / {galleryImages.length}
+              </span>
+
+            </div>
+
+
+            <!-- ==================================================
+                 MINIATURE
+            =================================================== -->
+
+            <div class="carousel-thumbnails">
+
+
+              {galleryImages.map(
+                (img, index) => (
+
+                  <div
+                    class:list={[
+                      'carousel-thumbnail',
+                      {
+                        active:
+                          index === 0
+                      }
+                    ]}
+                    data-index={index}
+                    onclick={`goToSlide('${galleryId}', ${index})`}
+                  >
+
+                    <img
+                      src={img}
+                      alt={`Miniatura ${index + 1}`}
+                      loading="lazy"
+                    />
+
+                  </div>
+
+                )
+              )}
+
+
+            </div>
+
+
+          </div>
+
+        </section>
+
+      )}
+
+      <!-- ===== NAVIGAZIONE INFERIORE ===== -->
+      <nav class="produzione-nav-bottom">
+        <a href={backUrl} class="nav-bottom-link center">Torna a {sectionName}</a>
+        <div class="nav-bottom-row">
+          {prevProduzione && (
+            <a href={`/produzioni/${section}/${prevProduzione.slug}`} class="nav-bottom-link prev">
+              <span class="nav-bottom-arrow">←</span>
+              <span class="nav-bottom-text">{prevProduzione.frontmatter.title}</span>
+            </a>
+          )}
+          {nextProduzione && (
+            <a href={`/produzioni/${section}/${nextProduzione.slug}`} class="nav-bottom-link next">
+              <span class="nav-bottom-text">{nextProduzione.frontmatter.title}</span>
+              <span class="nav-bottom-arrow">→</span>
+            </a>
+          )}
+        </div>
+      </nav>
+
+
+    </div>
+
+  </article>
+
+
+  <!-- ========================================================
+       LIGHTBOX
+  ========================================================= -->
+
+  <div
+    id="lightboxGallery"
+    class="lightbox-gallery"
+  >
+
+    <button
+      type="button"
+      class="lightbox-close"
+      onclick="closeLightbox()"
+      aria-label="Chiudi"
+    >
+      ✕
+    </button>
+
+
+    <img
+      id="lightboxImage"
+      class="lightbox-image"
+      src=""
+      alt="Immagine ingrandita"
+    />
+
+
+    <div class="lightbox-controls">
+
+      <button
+        type="button"
+        class="lightbox-btn prev"
+        onclick="changeLightboxImage(-1)"
+        aria-label="Immagine precedente"
+      >
+        ‹
+      </button>
+
+
+      <span
+        class="lightbox-counter"
+        id="lightboxCounter"
+      >
+        1 / 1
+      </span>
+
+
+      <button
+        type="button"
+        class="lightbox-btn next"
+        onclick="changeLightboxImage(1)"
+        aria-label="Immagine successiva"
+      >
+        ›
+      </button>
+
+    </div>
+
+  </div>
+
+</Layout>
+
+
+<style>
+
+/* ==========================================================
+   PAGINA SINGOLA
+========================================================== */
+
+.produzione-single {
+  padding: 80px 0 4rem 0;
+  background: transparent;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  margin-top: 30px
+}
+
+
+/* ==========================================================
+   NAVIGAZIONE SUPERIORE
+========================================================== */
+
+.produzione-nav-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.back-link {
+  color: var(--text-color);
+  opacity: 0.6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.back-link:hover {
+  color: var(--accent-color);
+  opacity: 1;
+}
+
+.nav-arrows-top {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.nav-btn-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  padding: 0.4rem 0.8rem;
+
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  color: var(--text-color);
+
+  text-decoration: none;
+
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.2s ease;
+
+  max-width: 180px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.nav-btn-top:hover {
+  background: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+  transform: translateY(-1px);
+}
+
+.nav-btn-top .nav-btn-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.nav-btn-top .nav-btn-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* ==========================================================
+   INTESTAZIONE
+========================================================== */
+
+.produzione-header {
+  margin-bottom: 2rem;
+}
+
+.produzione-header h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+
+  font-weight: 700;
+
+  color: var(--text-color);
+
+  margin: 0 0 0.5rem 0;
+
+  line-height: 1.2;
+}
+
+.badge-special {
+  display: inline-block;
+
+  background: var(--accent-color);
+
+  color: white;
+
+  font-size: 0.7rem;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.05em;
+
+  padding: 0.2rem 0.8rem;
+
+  border-radius: 20px;
+
+  margin-bottom: 0.75rem;
+}
+
+.produzione-meta {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 0.5rem 1.5rem;
+
+  font-size: 0.9rem;
+
+  color: var(--text-color);
+
+  opacity: 0.6;
+}
+
+
+/* ==========================================================
+   COPERTINA
+========================================================== */
+
+.produzione-cover {
+  margin-bottom: 2.5rem;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  background: var(--secondary-color);
+
+  max-height: 500px;
+}
+
+.produzione-cover img {
+  width: 100%;
+
+  height: auto;
+
+  max-height: 500px;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+
+/* ==========================================================
+   CONTENUTO
+========================================================== */
+
+.produzione-content {
+  font-size: 1.05rem;
+
+  line-height: 1.9;
+
+  color: var(--text-color);
+
+  max-width: 850px;
+
+  margin: 0 auto;
+}
+
+.produzione-content h2 {
+  font-size: 1.6rem;
+
+  font-weight: 700;
+
+  margin-top: 2.5rem;
+
+  margin-bottom: 0.75rem;
+}
+
+.produzione-content h3 {
+  font-size: 1.3rem;
+
+  font-weight: 600;
+
+  margin-top: 2rem;
+
+  margin-bottom: 0.5rem;
+}
+
+.produzione-content p {
+  margin-bottom: 1.25rem;
+}
+
+.produzione-content a {
+  color: var(--accent-color);
+
+  text-decoration: none;
+}
+
+.produzione-content a:hover {
+  text-decoration: underline;
+}
+
+
+/* ==========================================================
+   GALLERY
+========================================================== */
+
+.produzione-gallery {
+  margin-top: 3.5rem;
+
+  padding-top: 2.5rem;
+
+  border-top:
+    1px solid rgba(125, 10, 10, 0.08);
+
+  max-width: 900px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.produzione-gallery h3 {
+  font-size: 1.3rem;
+
+  font-weight: 700;
+
+  color: var(--text-color);
+
+  margin-bottom: 1.25rem;
+}
+
+
+/* ==========================================================
+   CAROUSEL
+========================================================== */
+
+.gallery-carousel {
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+
+  background: var(--secondary-color);
+}
+
+
+/*
+   IL CONTAINER HA UNA DIMENSIONE REALE.
+*/
+
+.carousel-container {
+  position: relative;
+
+  width: 100%;
+
+  aspect-ratio: 4 / 3;
+
+  overflow: hidden;
+}
+
+
+/*
+   IL TRACK È LARGO ESATTAMENTE QUANTO
+   IL CONTAINER.
+
+   NON viene modificato dal JavaScript.
+*/
+
+.carousel-track {
+  display: flex;
+
+  width: 100%;
+
+  height: 100%;
+
+  transition:
+    transform 0.4s ease;
+
+  will-change: transform;
+}
+
+
+/*
+   OGNI SLIDE OCCUPA ESATTAMENTE
+   IL 100% DEL CONTAINER.
+*/
+
+.carousel-slide {
+  flex: 0 0 100%;
+
+  width: 100%;
+
+  min-width: 100%;
+
+  height: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  overflow: hidden;
+
+  background: var(--secondary-color);
+
+  cursor: pointer;
+}
+
+
+/*
+   IMMAGINE
+
+   contain = nessun ritaglio.
+*/
+
+.carousel-slide img {
+  display: block;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: contain;
+
+  background: var(--secondary-color);
+
+  cursor: pointer;
+}
+
+
+/* ==========================================================
+   FRECCE
+========================================================== */
+
+.carousel-btn {
+  position: absolute;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  z-index: 20;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 36px;
+
+  height: 36px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.55);
+
+  color: white;
+
+  font-size: 1.4rem;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
+}
+
+.carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.carousel-btn.prev {
+  left: 0.75rem;
+}
+
+.carousel-btn.next {
+  right: 0.75rem;
+}
+
+
+/* ==========================================================
+   CONTATORE
+========================================================== */
+
+.carousel-counter {
+  text-align: center;
+
+  padding: 0.75rem 0;
+
+  font-size: 0.85rem;
+
+  color: var(--text-color);
+
+  opacity: 0.6;
+}
+
+
+/* ==========================================================
+   MINIATURE
+========================================================== */
+
+.carousel-thumbnails {
+  display: flex;
+
+  gap: 0.5rem;
+
+  padding: 0.75rem 0.5rem;
+
+  overflow-x: auto;
+
+  scrollbar-width: thin;
+
+  background:
+    rgba(255, 255, 255, 0.03);
+}
+
+.carousel-thumbnails::-webkit-scrollbar {
+  height: 4px;
+}
+
+.carousel-thumbnails::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+
+  border-radius: 4px;
+}
+
+.carousel-thumbnail {
+  flex: 0 0 60px;
+
+  width: 60px;
+
+  height: 60px;
+
+  border-radius: 6px;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  border: 2px solid transparent;
+
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.carousel-thumbnail.active {
+  border-color: var(--accent-color);
+
+  transform: scale(1.05);
+}
+
+.carousel-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.carousel-thumbnail img {
+  display: block;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+/* ==========================================================
+   LIGHTBOX
+========================================================== */
+
+.lightbox-gallery {
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background:
+    rgba(0, 0, 0, 0.9);
+
+  justify-content: center;
+
+  align-items: center;
+
+  flex-direction: column;
+
+  padding: 2rem;
+
+  z-index: 9999;
+
+  backdrop-filter: blur(8px);
+}
+
+.lightbox-gallery.active {
+  display: flex;
+}
+
+.lightbox-close {
+  position: absolute;
+
+  top: 1.5rem;
+
+  right: 1.5rem;
+
+  z-index: 10;
+
+  background: none;
+
+  border: none;
+
+  color: white;
+
+  font-size: 2rem;
+
+  cursor: pointer;
+
+  opacity: 0.7;
+
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-close:hover {
+  opacity: 1;
+}
+
+.lightbox-image {
+  display: block;
+
+  width: auto;
+
+  height: auto;
+
+  max-width: 90%;
+
+  max-height: 75vh;
+
+  object-fit: contain;
+
+  border-radius: 8px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-controls {
+  display: flex;
+
+  align-items: center;
+
+  gap: 2rem;
+
+  margin-top: 1.5rem;
+}
+
+.lightbox-btn {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 48px;
+
+  height: 48px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.1);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.2);
+
+  color: white;
+
+  font-size: 1.8rem;
+
+  cursor: pointer;
+}
+
+.lightbox-btn:hover {
+  background: var(--accent-color);
+
+  border-color: var(--accent-color);
+}
+
+.lightbox-counter {
+  color: white;
+
+  font-size: 0.9rem;
+
+  opacity: 0.7;
+
+  min-width: 60px;
+
+  text-align: center;
+}
+
+  /* ==========================================================
+     NAVIGAZIONE INFERIORE
+     ========================================================== */
+  .produzione-nav-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(125, 10, 10, 0.06);
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Riga centrale: "Torna a..." */
+  .nav-bottom-link.center {
+    color: var(--text-color);
+    opacity: 0.6;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease, opacity 0.3s ease;
+    padding: 0.25rem 0;
+  }
+
+  .nav-bottom-link.center:hover {
+    color: var(--accent-color);
+    opacity: 1;
+  }
+
+  /* Riga inferiore: prev e next affiancati */
+  .nav-bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .nav-bottom-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease, transform 0.2s ease;
+    max-width: 45%;
+    flex: 1;
+  }
+
+  .nav-bottom-link:hover {
+    color: var(--accent-color);
+  }
+
+  .nav-bottom-link.prev {
+    justify-content: flex-start;
+  }
+
+  .nav-bottom-link.next {
+    justify-content: flex-end;
+  }
+
+  .nav-bottom-arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .nav-bottom-link.prev:hover .nav-bottom-arrow {
+    transform: translateX(-4px);
+  }
+
+  .nav-bottom-link.next:hover .nav-bottom-arrow {
+    transform: translateX(4px);
+  }
+
+  .nav-bottom-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+  @media (max-width: 768px) {
+    .produzione-single {
+      padding: 70px 0 3rem 0;
+    }
+
+    .produzione-nav-top {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+    }
+
+    .nav-arrows-top {
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .nav-btn-top {
+      flex: 1;
+      justify-content: center;
+      padding: 0.4rem 0.6rem;
+      max-width: 100%;
+    }
+
+    .nav-btn-top .nav-btn-label {
+      font-size: 0.7rem;
+    }
+
+    .produzione-cover {
+      max-height: 300px;
+    }
+
+    .produzione-cover img {
+      max-height: 300px;
+    }
+
+    .produzione-header h1 {
+      font-size: 1.6rem;
+    }
+
+    .produzione-meta {
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .produzione-content {
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .carousel-btn {
+      width: 30px;
+      height: 30px;
+      font-size: 1.2rem;
+    }
+
+    .carousel-btn.prev {
+      left: 0.4rem;
+    }
+
+    .carousel-btn.next {
+      right: 0.4rem;
+    }
+
+    .carousel-thumbnail {
+      flex: 0 0 50px;
+      height: 50px;
+    }
+
+    .produzione-nav-bottom {
+      gap: 0.75rem;
+      padding-top: 1.5rem;
+    }
+
+    .nav-bottom-link.center {
+      font-size: 0.85rem;
+      padding: 0.25rem 0;
+      order: -1;
+      width: 100%;
+      text-align: center;
+    }
+
+    .nav-bottom-row {
+      flex-direction: row;
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    .nav-bottom-link {
+      max-width: 100%;
+      justify-content: center !important;
+      padding: 0.5rem 0;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      transition: background 0.3s ease;
+      flex: 1;
+      font-size: 0.85rem;
+    }
+
+    .nav-bottom-link:hover {
+      background: rgba(191, 49, 49, 0.06);
+    }
+
+    .nav-bottom-link.prev {
+      justify-content: flex-start !important;
+    }
+
+    .nav-bottom-link.next {
+      justify-content: flex-end !important;
+    }
+
+    .nav-bottom-text {
+      white-space: normal;
+      text-align: center;
+    }
+
+    .lightbox-gallery {
+      padding: 1rem;
+    }
+
+    .lightbox-image {
+      max-width: 100%;
+      max-height: 60vh;
+    }
+
+    .lightbox-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 1.4rem;
+    }
+
+    .lightbox-controls {
+      gap: 1rem;
+    }
+  }
+
+/* ==========================================================
+   MOBILE PICCOLO
+========================================================== */
+
+@media (max-width: 480px) {
+
+  .produzione-single {
+    padding: 60px 0 2rem 0;
+  }
+
+
+  .produzione-cover {
+    max-height: 220px;
+  }
+
+
+  .produzione-cover img {
+    max-height: 220px;
+  }
+
+
+  .carousel-thumbnail {
+    flex: 0 0 40px;
+
+    width: 40px;
+
+    height: 40px;
+  }
+
+
+  .nav-btn-top .nav-btn-label {
+    font-size: 0.65rem;
+  }
+
+
+  .lightbox-close {
+    top: 1rem;
+
+    right: 1rem;
+
+    font-size: 1.5rem;
+  }
+
+
+  .lightbox-btn {
+    width: 36px;
+
+    height: 36px;
+
+    font-size: 1.2rem;
+  }
+
+
+  .lightbox-controls {
+    gap: 0.75rem;
+  }
+
+
+}
+
+</style>
+
+
+<script>
+// @ts-nocheck
+
+/* ==========================================================
+   STATO CAROUSEL
+========================================================== */
+
+window.__vldv_carousels =
+  window.__vldv_carousels || {};
+
+
+/* ==========================================================
+   TROVA CAROUSEL
+========================================================== */
+
+function getCarousel(galleryId) {
+
+  const container =
+    document.getElementById(galleryId);
+
+  if (!container) {
+    return null;
+  }
+
+
+  const track =
+    container.querySelector(
+      '.carousel-track'
+    );
+
+  if (!track) {
+    return null;
+  }
+
+
+  const slides =
+    track.querySelectorAll(
+      '.carousel-slide'
+    );
+
+
+  const thumbnails =
+    container.querySelectorAll(
+      '.carousel-thumbnail'
+    );
+
+
+  const totalSlides =
+    slides.length;
+
+
+  if (
+    !window.__vldv_carousels[
+      galleryId
+    ]
+  ) {
+
+    window.__vldv_carousels[
+      galleryId
+    ] = {
+
+      currentIndex: 0,
+
+      totalSlides
+
+    };
+
+  }
+
+
+  return {
+
+    container,
+
+    track,
+
+    slides,
+
+    thumbnails,
+
+    totalSlides
+
+  };
+
+}
+
+
+/* ==========================================================
+   AGGIORNA CAROUSEL
+========================================================== */
+
+function updateCarousel(galleryId) {
+
+  const data =
+    getCarousel(galleryId);
+
+  if (!data) {
+    return;
+  }
+
+
+  const {
+    track,
+    thumbnails,
+    totalSlides
+  } = data;
+
+
+  const currentIndex =
+    window.__vldv_carousels[
+      galleryId
+    ].currentIndex;
+
+
+  /*
+    Ogni slide è larga 100%.
+
+    Quindi:
+    0  = prima
+    -100 = seconda
+    -200 = terza
+  */
+
+  const offset =
+    -(currentIndex * 100);
+
+
+  track.style.transform =
+    `translateX(${offset}%)`;
+
+
+  /*
+    Aggiorna miniature
+  */
+
+  thumbnails.forEach(
+    (thumbnail, index) => {
+
+      thumbnail.classList.toggle(
+        'active',
+        index === currentIndex
+      );
+
+    }
+  );
+
+
+  /*
+    Aggiorna contatore
+  */
+
+  const counter =
+    document.getElementById(
+      `${galleryId}-counter`
+    );
+
+
+  if (counter) {
+
+    counter.textContent =
+      `${currentIndex + 1} / ${totalSlides}`;
+
+  }
+
+}
+
+
+/* ==========================================================
+   MUOVI CAROUSEL
+========================================================== */
+
+window.moveCarousel =
+  function (
+    galleryId,
+    direction
+  ) {
+
+    const data =
+      getCarousel(galleryId);
+
+    if (!data) {
+      return;
+    }
+
+
+    const {
+      totalSlides
+    } = data;
+
+
+    let currentIndex =
+      window.__vldv_carousels[
+        galleryId
+      ].currentIndex;
+
+
+    currentIndex += direction;
+
+
+    if (currentIndex < 0) {
+
+      currentIndex =
+        totalSlides - 1;
+
+    }
+
+
+    if (
+      currentIndex >=
+      totalSlides
+    ) {
+
+      currentIndex = 0;
+
+    }
+
+
+    window.__vldv_carousels[
+      galleryId
+    ].currentIndex =
+      currentIndex;
+
+
+    updateCarousel(galleryId);
+
+  };
+
+
+/* ==========================================================
+   VAI ALLA SLIDE
+========================================================== */
+
+window.goToSlide =
+  function (
+    galleryId,
+    index
+  ) {
+
+    const data =
+      getCarousel(galleryId);
+
+    if (!data) {
+      return;
+    }
+
+
+    const {
+      totalSlides
+    } = data;
+
+
+    if (
+      index < 0 ||
+      index >= totalSlides
+    ) {
+
+      return;
+
+    }
+
+
+    window.__vldv_carousels[
+      galleryId
+    ].currentIndex =
+      index;
+
+
+    updateCarousel(galleryId);
+
+  };
+
+
+/* ==========================================================
+   LIGHTBOX
+========================================================== */
+
+let lightboxImages = [];
+
+let lightboxIndex = 0;
+
+
+/* ==========================================================
+   ELEMENTI LIGHTBOX
+========================================================== */
+
+function getLightboxEls() {
+
+  return {
+
+    el:
+      document.getElementById(
+        'lightboxGallery'
+      ),
+
+    img:
+      document.getElementById(
+        'lightboxImage'
+      ),
+
+    counter:
+      document.getElementById(
+        'lightboxCounter'
+      )
+
+  };
+
+}
+
+
+/* ==========================================================
+   APRI LIGHTBOX
+========================================================== */
+
+window.openLightbox =
+  function (
+    galleryId,
+    index
+  ) {
+
+    const data =
+      getCarousel(galleryId);
+
+    if (!data) {
+      return;
+    }
+
+
+    lightboxImages =
+      Array.from(
+        data.slides
+      )
+      .map((slide) => {
+
+        const img =
+          slide.querySelector('img');
+
+        return img
+          ? img.src
+          : '';
+
+      })
+      .filter(Boolean);
+
+
+    if (
+      lightboxImages.length === 0
+    ) {
+
+      return;
+
+    }
+
+
+    lightboxIndex =
+      Math.max(
+        0,
+        Math.min(
+          index || 0,
+          lightboxImages.length - 1
+        )
+      );
+
+
+    updateLightbox();
+
+
+    const { el } =
+      getLightboxEls();
+
+
+    if (el) {
+
+      el.classList.add(
+        'active'
+      );
+
+      document.body.style.overflow =
+        'hidden';
+
+    }
+
+  };
+
+
+/* ==========================================================
+   CHIUDI LIGHTBOX
+========================================================== */
+
+window.closeLightbox =
+  function () {
+
+    const { el } =
+      getLightboxEls();
+
+
+    if (el) {
+
+      el.classList.remove(
+        'active'
+      );
+
+      document.body.style.overflow =
+        '';
+
+    }
+
+  };
+
+
+/* ==========================================================
+   CAMBIA FOTO LIGHTBOX
+========================================================== */
+
+window.changeLightboxImage =
+  function (direction) {
+
+    if (
+      lightboxImages.length === 0
+    ) {
+
+      return;
+
+    }
+
+
+    let newIndex =
+      lightboxIndex +
+      direction;
+
+
+    if (newIndex < 0) {
+
+      newIndex =
+        lightboxImages.length - 1;
+
+    }
+
+
+    if (
+      newIndex >=
+      lightboxImages.length
+    ) {
+
+      newIndex = 0;
+
+    }
+
+
+    lightboxIndex =
+      newIndex;
+
+
+    updateLightbox();
+
+  };
+
+
+/* ==========================================================
+   AGGIORNA LIGHTBOX
+========================================================== */
+
+function updateLightbox() {
+
+  const {
+    img,
+    counter
+  } = getLightboxEls();
+  if (!img || !counter) {
+    return;
+  }
+  if (
+    lightboxImages.length === 0
+  ) {
+    return;
+  }
+  img.src =
+    lightboxImages[
+      lightboxIndex
+    ];
+  counter.textContent =
+    `${lightboxIndex + 1} / ${lightboxImages.length}`;
+
+}
+
+/* ==========================================================
+   INIZIALIZZA CAROUSEL
+========================================================== */
+
+function initCarousels() {
+
+  document
+    .querySelectorAll(
+      '.gallery-carousel'
+    )
+    .forEach(
+      (carousel) => {
+
+        const galleryId =
+          carousel.id;
+        const slides =
+          carousel.querySelectorAll(
+            '.carousel-slide'
+          );
+        if (
+          slides.length === 0
+        ) {
+          return;
+        }
+
+
+        /*
+          NOTA IMPORTANTE:
+
+          NON impostiamo più
+          track.style.width.
+
+          Il track è semplicemente
+          width: 100%.
+        */
+
+        window.__vldv_carousels[
+          galleryId
+        ] = {
+          currentIndex: 0,
+          totalSlides:
+            slides.length
+        };
+        updateCarousel(
+          galleryId
+        );
+      }
+    );
+
+}
+
+/* ==========================================================
+   DOM READY
+========================================================== */
+
+if (
+  document.readyState ===
+  'loading'
+) {
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    initCarousels
+  );
+
+} else {
+  initCarousels();
+}
+
+/* ==========================================================
+   TASTIERA LIGHTBOX
+========================================================== */
+
+document.addEventListener(
+  'keydown',
+  function (e) {
+
+    const { el } =
+      getLightboxEls();
+
+
+    if (
+      !el ||
+      !el.classList.contains(
+        'active'
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      e.key === 'Escape'
+    ) {
+
+      closeLightbox();
+
+    } else if (
+      e.key === 'ArrowLeft'
+    ) {
+
+      changeLightboxImage(-1);
+
+    } else if (
+      e.key === 'ArrowRight'
+    ) {
+
+      changeLightboxImage(1);
+
+    }
+
+  }
+);
+
+
+/* ==========================================================
+   CLICK LIGHTBOX
+========================================================== */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  function () {
+
+    const {
+      el,
+      img
+    } = getLightboxEls();
+    /*
+      Clic sullo sfondo:
+      chiudi lightbox.
+    */
+
+    if (el) {
+
+      el.addEventListener(
+        'click',
+        function (e) {
+
+          if (
+            e.target === el
+          ) {
+
+            closeLightbox();
+
+          }
+
+        }
+      );
+
+    }
+    /*
+      Clic sull'immagine:
+      non chiudere.
+    */
+
+    if (img) {
+
+      img.addEventListener(
+        'click',
+        function (e) {
+
+          e.stopPropagation();
+
+        }
+      );
+
+    }
+    /*
+      Clic sui controlli:
+      non chiudere.
+    */
+
+    document
+        .querySelectorAll(
+        '.lightbox-controls'
+        )
+        .forEach(
+        (controls) => {
+
+            controls.addEventListener(
+            'click',
+            function (e) {
+
+                e.stopPropagation();
+
+            }
+            );
+
+        }
+        );
+  }
+);
+
+</script>
