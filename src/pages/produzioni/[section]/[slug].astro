@@ -257,12 +257,23 @@ function getGalleryImages(
    GALLERY
 ========================================================== */
 
-const galleryImages =
-  frontmatter.gallery ||
-  getGalleryImages(
-    produzione.slug,
-    frontmatter.gallery_count
-  );
+// Preferisci le immagini salvate in R2. Se in frontmatter è presente
+// `gallery_count` (o una `gallery` array), costruisci gli URL su R2
+// usando lo slug della produzione. Se non ci sono immagini, usa
+// l'eventuale array `frontmatter.gallery` come fallback.
+const _galleryCount =
+  frontmatter.gallery_count ||
+  (Array.isArray(frontmatter.gallery)
+    ? frontmatter.gallery.length
+    : 0);
+
+let galleryImages = [];
+if (_galleryCount > 0) {
+  galleryImages = getGalleryImages(produzione.slug, _galleryCount);
+} else if (Array.isArray(frontmatter.gallery) && frontmatter.gallery.length > 0) {
+  // fallback: se ci sono percorsi espliciti, usali così come sono
+  galleryImages = frontmatter.gallery;
+}
 
 
 const hasGallery =
