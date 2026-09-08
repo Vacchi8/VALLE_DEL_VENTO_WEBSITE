@@ -82,6 +82,26 @@ import ContattiSection from '../components/ContattiSection.astro';
         </div>
       </div>
 
+      <!-- ===== ORARI CORSI ===== -->
+      <div class="orari-section">
+        <h2>Gruppi e Orari</h2>
+        <p class="orari-giorno">Ogni Venerdì</p>
+        <div class="orari-grid">
+          <div class="orari-item">
+            <span class="orario">15:00 - 17:00</span>
+            <span class="fascia">Prima / Terza Media</span>
+          </div>
+          <div class="orari-item">
+            <span class="orario">17:00 - 19:00</span>
+            <span class="fascia">Prima / Terza Superiore</span>
+          </div>
+          <div class="orari-item">
+            <span class="orario">19:00 - 21:00</span>
+            <span class="fascia">Dalla Quarta Superiore</span>
+          </div>
+        </div>
+      </div>
+
       <!-- ===== 4. GALLERIA (opzionale) ===== -->
       <!--
       <div class="gallery-block">
@@ -207,6 +227,70 @@ import ContattiSection from '../components/ContattiSection.astro';
     opacity: 0.85;
     margin-bottom: 1.25rem;
     text-align: left;
+  }
+
+  /* ==========================================================
+     ORARI CORSI
+     ========================================================== */
+  .orari-section {
+    margin-bottom: 4rem;
+    text-align: center;
+  }
+
+  .orari-section h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+  }
+
+  .orari-section h3 {
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+  }
+
+  .orari-giorno {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
+  .orari-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .orari-item {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background 0.3s ease;
+  }
+
+  .orari-item:hover {
+    background: rgba(191, 49, 49, 0.04);
+  }
+
+  .orario {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 0.25rem;
+  }
+
+  .fascia {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.6;
   }
 
   /* ==========================================================

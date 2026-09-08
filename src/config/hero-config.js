@@ -2,35 +2,35 @@
 
 export const heroConfig = {
   home: {
-    image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/78.JPG',
+    image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/132.JPG',
     title: 'VALLE DEL VENTO',
     subtitle: '',
-    },
+  },
   news: {
-    image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/132.JPG',
-    title: 'News',
-    subtitle: 'tutte le novità, gli spettacoli e gli eventi della Valle del Vento',
+    image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/78.JPG',
+    title: 'NEWS',
+    subtitle: 'TUTTE LE NOVITÀ, GLI SPETTACOLI E GLI EVENTI',
   },
   scuola: {
     image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/132.JPG',
-    title: 'La Nostra Scuola',
-    subtitle: 'Storia, filosofia e il nostro fondatore',
+    title: 'SCUOLA DI TEATRO',
+    subtitle: '',
   },
   produzioni: {
     inScena: {
       image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/132.JPG',
-      title: 'In Scena',
-      subtitle: 'I nostri spettacoli attivi e in lavorazione',
+      title: 'IN SCENA',
+      subtitle: 'I NOSTRI SPETTACOLI ATTIVI E IN LAVORAZIONE',
     },
     repertorio: {
       image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/132.JPG',
-      title: 'Repertorio',
-      subtitle: 'Gli spettacoli che hanno segnato la nostra storia',
+      title: 'REPERTORIO',
+      subtitle: 'GLI SPETTACOLI CHE HANNO SEGNATO LA NOSTRA STORIA',
     },
   },
   contatti: {
     image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/132.JPG',
-    title: 'Contatti',
-    subtitle: 'Scrivici, chiamaci, vieni a trovarci',
+    title: 'CONTATTI',
+    subtitle: 'SCRIVICI, CHIAMACI, VIENI A TROVARCI',
   },
 };

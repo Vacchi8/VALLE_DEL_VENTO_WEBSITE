@@ -9,7 +9,6 @@ gallery_count: 0
 slug: "a-kind-of-dream"
 ---
 
-## Il progetto
 
 Quando nell'autunno 2020 scoprimmo di dover affrontare un altro periodo di isolamento a causa della pandemia mondiale da Covid-19, reduci dall'esperienza di Covid Radio Bunker messa in atto durante il primo lockdown della primavera 2020, abbiamo deciso di allontanarci il più possibile dalla tematica del virus, che ormai sembrava uno stucco che riempiva qualsiasi porosità delle nostre vite, per provare ad orientarci in un mondo di magia ed acrobazie amorose, come appunto quello del Sogno di una notte di mezza estate di William Shakespeare.
 

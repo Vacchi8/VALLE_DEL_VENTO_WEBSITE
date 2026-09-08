@@ -1,12 +1,13 @@
 ---
 // src/components/Hero.astro
 
-const { image, title, subtitle, height = '100vh', fontClass = ''} = Astro.props;
+const { image, title, subtitle, height = '100vh', fontClass = '', align = 'center' } = Astro.props;
 ---
 
 <div 
   class="hero" 
   style={`background-image: url(${image}); min-height: ${height};`}
+  data-align={align}
 >
   <div class="hero-overlay">
     <h1 class={fontClass}>{title}</h1>
@@ -25,6 +26,21 @@ const { image, title, subtitle, height = '100vh', fontClass = ''} = Astro.props;
     width: 100%;
   }
 
+  /* Allineamento verticale personalizzato */
+  .hero[data-align="top"] {
+    align-items: flex-start;
+    padding-top: 3rem;
+  }
+
+  .hero[data-align="bottom"] {
+    align-items: flex-end;
+    padding-bottom: 4rem;
+  }
+
+  .hero[data-align="center"] {
+    align-items: center;
+  }
+
   .hero::before {
     content: '';
     position: absolute;
@@ -41,40 +57,40 @@ const { image, title, subtitle, height = '100vh', fontClass = ''} = Astro.props;
     color: white;
     border-radius: 8px;
     max-width: 90%;
-    /* REMOVED font-family:cursive; */
   }
-    /* Font di default (Mulish) */
+
+  /* Font di default (Mulish) */
   .hero-overlay h1 {
-    font-family: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    font-weight: 700;
+    font-family: "Yuyu Short", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    letter-spacing: 0.15em;
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    font-size: clamp(3rem, 5vw, 4rem);
+    margin-top: 0;
     margin-bottom: 0.5rem;
-    letter-spacing: 0.02em;
   }
-
-  /* Font personalizzato per la home */
-  .hero-overlay h1.font-home {
-    font-family: "Bodoni Moda", serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-  }
-
 
   .hero-overlay p {
-    font-family: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-family: "Yuyu Short", sans-serif;
+    font-size: clamp(2.5rem, 2vw, 1.5rem);
+    font-weight: 300;
+    font-style: normal;
     opacity: 0.95;
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
-    font-weight: 400;
     max-width: 700px;
     margin: 0 auto;
+    letter-spacing: 0.10em;
   }
 
   @media (max-width: 768px) {
     .hero-overlay {
       padding: 1.5rem;
+    }
+
+    /* Su mobile, se è allineato in alto, riduci il padding-top */
+    .hero[data-align="top"] {
+      padding-top: 2.5rem;
     }
   }
 </style>

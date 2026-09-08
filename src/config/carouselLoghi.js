@@ -25,5 +25,15 @@ export const loghiConfig = [
     src: '/images/loghi/logo-mannus.png',
     alt: 'Mannus',
     url: 'https://www.mannusclub.it/',
+  },
+  {
+    src: '/images/loghi/logo-jacule.png',
+    alt: 'Jaculè',
+    url: 'https://www.jaqule.com/',
+  },
+  {
+    src: '/images/loghi/logo-HakunaMatata.jpeg',
+    alt: 'Hakuna Matata',
+    url: 'https://www.circoloarcihakunamatata.it',
   }
 ];

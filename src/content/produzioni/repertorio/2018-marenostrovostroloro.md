@@ -15,7 +15,6 @@ gallery:
 - "https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/marenostrovostroloro/6.jpg"
 ---
 
-## Il progetto
 
 Il mare è un confine salato, talvolta burrascoso. A chi vuole oltrepassarlo viene chiesto un dazio, soltanto in parte economico. Molto più spesso affettivo, emozionale. Il mare sancisce una distanza non più colmabile, tra un passato trasformatosi in un presente insopportabile, e un futuro incerto. Il mare è nostro, è il posto dove andiamo a divertirci a riposarci, dove spendiamo le nostre vacanze. Il mare è vostro, è la vostra utopia che si realizza, la fuga, dolorosa e roccambolesca, che si compie. Ma il mare è anche e soprattutto loro, di quelli che adesso sono diventati mare stesso. Pesci volanti, anime affogate.
 

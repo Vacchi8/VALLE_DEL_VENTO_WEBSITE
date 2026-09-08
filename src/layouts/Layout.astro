@@ -13,7 +13,7 @@ const { title, description } = Astro.props;
 // Valori di default che non cambiano mai
 const siteName = 'Valle Del Vento';
 const siteUrl = 'https://valle-del-vento-website.pages.dev'; // ← Aggiorna con dominio definitivo
-const defaultImage = '/images/favicon.ico'; //inserire logo valle del vento
+const defaultImage = '/images/favicon.jpeg'; //inserire logo valle del vento
 const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 
 
@@ -27,14 +27,17 @@ const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 		
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.jpeg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<!-- Font -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Yuyu+Short&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+
 		<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"/>
 		
 		<title>{fullTitle}</title>

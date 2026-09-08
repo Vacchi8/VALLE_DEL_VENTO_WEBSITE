@@ -9,7 +9,6 @@ gallery_count: 0
 slug: "fango"
 ---
 
-## Il progetto
 
 La genesi di questo lavoro risale all’estate 2015, subito dopo l’ultima tragica alluvione di Genova, in seguito all’esondazione del torrente Bisannio. I ragazzi del gruppo, scossi da quelle immagini hanno cominciato a chiedersi il perché fosse successo, e così è cominciato un laboratorio teatrale focalizzato sul consumo del territorio e sulla cementificazione criminale e selvaggia.
 

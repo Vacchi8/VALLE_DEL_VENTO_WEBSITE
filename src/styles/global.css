@@ -57,3 +57,80 @@ a:hover {
 .text-color-custom {
   color: var(--text-color);
 }
+
+/* Ensure Hero alignment defaults to center across the site
+   but allow explicit `data-align="top"` to place content at the top */
+.hero {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative;
+  width: 100%;
+}
+
+.hero[data-align="top"] {
+  align-items: flex-start !important;
+  padding-top: 4rem !important;
+}
+
+/* ORARI CORSI: shared between contatti and scuola pages */
+.orari-section {
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.orari-section h2 {
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.orari-section h3 {
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
+.orari-giorno {
+  font-size: 1.1rem;
+  color: var(--accent-color);
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.orari-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.orari-item {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.3s ease;
+}
+
+.orari-item:hover {
+  background: rgba(191, 49, 49, 0.04);
+}
+
+.orario {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 0.25rem;
+}
+
+.fascia {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.6;
+}
