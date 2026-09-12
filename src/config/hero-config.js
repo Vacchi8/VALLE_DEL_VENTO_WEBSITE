@@ -2,17 +2,17 @@
 
 export const heroConfig = {
   home: {
-    image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/foto-pagine/foto-pagine_IMG_9901.JPG',
+    image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/foto-pagine/atto%20II%20scena%20I%2017.png',
     title: 'VALLE DEL VENTO',
     subtitle: '',
   },
   news: {
     image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/foto-pagine/IMG_0635.JPG',
     title: 'NEWS',
-    subtitle: 'TUTTE LE NOVITÀ, GLI SPETTACOLI E GLI EVENTI',
+    subtitle: '',
   },
   scuola: {
-    image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/foto-pagine/foto-pagine_IMG_9909.JPG',
+    image: 'https://pub-3db0a12fc0e24105bb45e72d8f025cbc.r2.dev/foto-pagine/IMG_0011.JPG',
     title: 'SCUOLA DI TEATRO',
     subtitle: '',
   },
