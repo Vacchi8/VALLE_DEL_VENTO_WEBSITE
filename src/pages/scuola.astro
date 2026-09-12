@@ -82,23 +82,39 @@ import ContattiSection from '../components/ContattiSection.astro';
         </div>
       </div>
 
-      <!-- ===== ORARI CORSI ===== -->
+      <br />
+      <br />
+
+           <!-- ===== ORARI CORSI ===== -->
       <div class="orari-section">
         <h2>Gruppi e Orari</h2>
+        <h3>Piccola Scuola Popolare di Teatro</h3>
+        <p class="orari-giorno">Via Sant'Ambrogio 46/a, Villar Dora (TO)</p>
         <p class="orari-giorno">Ogni Venerdì</p>
+        
         <div class="orari-grid">
+          
+          <!-- Fascia 15:00 - 17:00 -->
           <div class="orari-item">
             <span class="orario">15:00 - 17:00</span>
-            <span class="fascia">Prima / Terza Media</span>
+            <span class="fascia">Ragazzi dagli 11 ai 14 anni</span>
           </div>
+
+          <!-- Fascia 17:00 - 19:00 (due corsi) -->
           <div class="orari-item">
             <span class="orario">17:00 - 19:00</span>
-            <span class="fascia">Prima / Terza Superiore</span>
+            <div class="fascia-group">
+              <span class="fascia">corso 1: Bambini dai 7 agli 11 anni</span>
+              <span class="fascia">corso 2: Ragazzi dai 14 ai 18 anni</span>
+            </div>
           </div>
+
+          <!-- Fascia 19:00 - 21:00 -->
           <div class="orari-item">
             <span class="orario">19:00 - 21:00</span>
-            <span class="fascia">Dalla Quarta Superiore</span>
+            <span class="fascia">Dai 18 anni in su</span>
           </div>
+
         </div>
       </div>
 
@@ -228,8 +244,7 @@ import ContattiSection from '../components/ContattiSection.astro';
     margin-bottom: 1.25rem;
     text-align: left;
   }
-
-  /* ==========================================================
+/* ==========================================================
      ORARI CORSI
      ========================================================== */
   .orari-section {
@@ -252,9 +267,13 @@ import ContattiSection from '../components/ContattiSection.astro';
   }
 
   .orari-giorno {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--accent-color);
     font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .orari-giorno:last-of-type {
     margin-bottom: 2rem;
   }
 
@@ -262,8 +281,9 @@ import ContattiSection from '../components/ContattiSection.astro';
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
+    align-items: stretch;
   }
 
   .orari-item {
@@ -271,26 +291,62 @@ import ContattiSection from '../components/ContattiSection.astro';
     background: rgba(255, 255, 255, 0.04);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.06);
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 120px;
   }
 
   .orari-item:hover {
-    background: rgba(191, 49, 49, 0.04);
+    background: rgba(191, 49, 49, 0.06);
+    transform: translateY(-3px);
   }
 
   .orario {
     display: block;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--accent-color);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
   }
 
   .fascia {
     display: block;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-color);
-    opacity: 0.6;
+    opacity: 0.75;
+    line-height: 1.4;
+  }
+
+  
+  .fascia-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .fascia-separator {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .fascia-group {
+      flex-direction: row;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .fascia-separator {
+      display: inline;
+      color: var(--accent-color);
+      opacity: 0.5;
+      font-weight: 700;
+    }
   }
 
   /* ==========================================================
@@ -337,6 +393,27 @@ import ContattiSection from '../components/ContattiSection.astro';
   /* ==========================================================
      MOBILE
      ========================================================== */
+       @media (max-width: 991.98px) {
+    .orari-grid {
+      grid-template-columns: 1fr;
+      max-width: 500px;
+      gap: 1rem;
+    }
+
+    .orari-item {
+      min-height: auto;
+      padding: 1.25rem 1rem;
+    }
+
+    .orario {
+      font-size: 1.1rem;
+    }
+
+    .fascia {
+      font-size: 0.9rem;
+    }
+  }
+
   @media (max-width: 768px) {
     .story-block,
     .teacher-block {

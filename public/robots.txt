@@ -4,5 +4,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://tuo-dominio.it/sitemap-index.xml //Sostituisci https://tuo-dominio.it con il tuo URL finale.
-
+Sitemap: https://valledelvento.org/sitemap-index.xml 
