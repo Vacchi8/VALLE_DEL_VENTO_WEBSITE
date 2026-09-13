@@ -28,15 +28,12 @@ Tra tentativi di omicidio grotteschi, rivalità familiari e alleanze impreviste,
 
 Adolescenti (11+) e adulti. Particolarmante adatto a contesti scolastici e progetti su educazione all'immagine e al digitale.
 
-
-
 ## Contatti
 
 Per informazioni sullo spettacolo, disponibilità e ingaggi:
 
 **Valle del Vento APS**  
-📧 valledelventoteatro@gmail.com  
-📞 +39 349 318 0419  
-
+- 📧 info@valledelvento.org 
+- 📞 +39 349 318 0419  
 
 

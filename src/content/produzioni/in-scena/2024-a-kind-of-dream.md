@@ -5,7 +5,7 @@ cover: "/images/produzioni/a-kind-of-dream.jpg"
 excerpt: "Riscrittura del Sogno di una notte di mezza estate, nata durante la pandemia."
 regia: "Alessandro Tessitore"
 durata: "90 minuti"
-gallery_count: 0
+gallery_count: 27
 slug: "a-kind-of-dream"
 ---
 

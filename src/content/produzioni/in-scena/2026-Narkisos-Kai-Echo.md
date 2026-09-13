@@ -38,4 +38,27 @@ esso.
 L’immagine finale del telefono immerso nell’acqua e circondato dalle candele restituisce il
 cuore del progetto: la dissoluzione del soggetto nel proprio riflesso.
 
+## Destinatari
 
+Lo spettacolo è pensato per:
+ 
+- Stagioni di prosa contemporanea
+- festival di teatro di ricerca
+- festival dedicati al linguaggi contemporanei 
+- rassegne su adolescenza e nuove generazioni
+- circuiti scolastici e progetti di audience development
+
+Particolarmente adatto a contesti che lavorano su:
+
+- Giovane pubblico
+- Teatro civile
+- Teatro contemporaneo
+- educazione all’immagine e al digitale 
+
+## Contatti
+
+Per informazioni sullo spettacolo, disponibilità e ingaggi:
+
+**Valle del Vento APS**  
+- 📧 info@valledelvento.org 
+- 📞 +39 349 318 0419  

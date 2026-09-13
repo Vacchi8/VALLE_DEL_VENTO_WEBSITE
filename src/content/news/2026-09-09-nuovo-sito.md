@@ -33,12 +33,12 @@ Ma Valle del Vento è anche:
 
 Vi invitiamo a esplorare il nuovo sito e a scoprire tutte le nostre attività.
 
-Se siete curiosi di conoscere i nostri corsi, gli spettacoli in programma o le opportunità di collaborazione, non esitate a [contattarci](/contatti).
+Se siete curiosi di conoscere i nostri corsi, gli spettacoli in programma o le opportunità di collaborazione, non esitate a **[contattarci](/contatti)**.
 
 Benvenuti in **Valle del Vento**.
 
 ### Info utili
 
-- **Email**: [valledelventoteatro@gmail.com](mailto:valledelventoteatro@gmail.com)
+- **Email**: [info@valledelvento.org](mailto:info@valledelvento.org)
 - **Telefono**: +39 349 318 0419
 

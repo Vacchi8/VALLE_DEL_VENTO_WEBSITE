@@ -61,7 +61,5 @@ Alessandro Tessitore
 Per informazioni sullo spettacolo, disponibilità e ingaggi:
 
 **Valle del Vento APS**  
-📧 valledelventoteatro@gmail.com  
-📞 +39 349 318 0419  
-
-
+- 📧 info@valledelvento.org 
+- 📞 +39 349 318 0419  
