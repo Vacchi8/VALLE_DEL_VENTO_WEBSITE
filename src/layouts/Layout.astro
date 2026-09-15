@@ -13,7 +13,7 @@ const { title, description } = Astro.props;
 // Valori di default che non cambiano mai
 const siteName = 'Valle Del Vento';
 const siteUrl = 'https://valledelvento.org'; 
-const defaultImage = '/images/favicon.jpeg'; //inserire logo valle del vento
+const defaultImage = '/favicon.png'; //inserire logo valle del vento
 const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 
 
@@ -27,7 +27,7 @@ const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 		
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.jpeg" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<!-- Font -->

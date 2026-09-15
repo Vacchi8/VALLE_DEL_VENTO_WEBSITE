@@ -1,7 +1,7 @@
 ---
 title: "Blanche (She's still online)"
 date: 2026
-cover: "/favicon.jpeg"
+cover: "/favicon.png"
 excerpt: "Una fiaba contemporanea che mette in corto circuito l'universo arcaico della narrazione fiabesca e quello iper attuale dei social media."
 regia: "Alessandro Tessitore"
 durata: "70-80 minuti"

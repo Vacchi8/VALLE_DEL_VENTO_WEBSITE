@@ -1,7 +1,7 @@
 ---
 title: "Una semplice distorsione"
 date: 2026
-cover: "/favicon.jpeg"
+cover: "/favicon.png"
 excerpt: "Non parla di migrazione, parla di noi. Di quanto vale una vita quando diventa invisibile e di quanto costa un corpo quando smette di essere una persona."
 regia: "Alessandro Tessitore"
 durata: "60-75 minuti"

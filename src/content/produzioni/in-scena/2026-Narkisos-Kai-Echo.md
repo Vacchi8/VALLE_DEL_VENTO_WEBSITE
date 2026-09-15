@@ -2,7 +2,7 @@
 # === CAMPI OBBLIGATORI ===
 title: "Nàrkisos Kai Echò"
 date: 2026
-cover: "/favicon.jpeg"
+cover: "/favicon.png"
 #=== CAMPI OPZIONALI ===
 excerpt: "A partire dal mito di Narciso e Eco, lo spettacolo costruisce una drammaturgia originale in cui il racconto mitologico si intreccia con frammenti di vite adolescenziali, dinamiche familiari disfunzionali, relazioni tossiche, dipendenza dallo sguardo altrui e costruzione dell’identità nell’epoca digitale."
 regia: "Alessandro Tessitore"
