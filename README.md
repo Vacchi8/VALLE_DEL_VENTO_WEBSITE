@@ -233,5 +233,5 @@ Il codice sorgente è di proprietà dell'associazione. Per informazioni sull'uti
 - **W-Developer Email**: [giorgiovacchiotti@gmail.com](mailto:giorgiovacchiotti@gmail.com)
 - **Telefono**: +39 349 318 0419
 - **Sito**: [www.valledelvento.org](https://www.valledelvento.org)
-- **Instagram**: [@valle.del.vento_](https://www.instagram.com/valle.del.vento_)
+- **Instagram**: [@valle.del.vento_](https://www.instagram.com/valle.del.vento_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==)
 - **Facebook**: [Piccola Scuola Popolare di Teatro](https://www.facebook.com/piccolascuoladiteatro/)
