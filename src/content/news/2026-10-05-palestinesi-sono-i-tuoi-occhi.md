@@ -11,7 +11,7 @@ contactEmail: "info@valledelvento.org"
 contactPhone: "+39 349 318 0419"
 ---
 
-## L'evento
+## L'evento 
 
 Abbiamo deciso di aderire al progetto globale *“Palestinesi sono i tuoi occhi”*.
 Perché pensiamo sia necessario mettere in gioco la nostra voce e i nostri corpi non solo sull’asfalto, durante le manifestazioni contro il genocidio palestinese e contro ogni forma di sopruso nei confronti di tutti i popoli della Terra, ma anche sul palcoscenico, per dare voce alla cultura e alla poesia di quei popoli e ricordarci che, al di là delle frontiere che ci circondano o che vorremmo oltrepassare, siamo e rimaniamo esseri umani, con il nostro diritto alla vita e alla felicità.
