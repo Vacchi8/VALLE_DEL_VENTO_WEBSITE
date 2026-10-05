@@ -1,7 +1,7 @@
 ---
 title: "Palestinesi sono i tuoi occhi"
 date: 2026-10-05   
-image: "/images/news/palestinesiSonoTuoiOcchi/palestinesi-sono-tuoi-occhi.jpeg"
+image: "/images/news/palestinesiSonoTuoiOcchi/palestinesi-sono-i-tuoi-occhi.jpeg"
 excerpt: "Un atto di resistenza culturale: poesie e testi dall'Anqa Group per ricordarci che siamo tutti esseri umani. Vi aspettiamo il 15 ottobre."
 
 location: "teatro Magnetto - Almese (To)"
